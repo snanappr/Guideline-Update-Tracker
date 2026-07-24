@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guideline Update Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     PASTEL NOTEPAD  —  light + monochrome night mode
+     Edit tokens here. Dark values live in [data-theme="dark"].
+     ============================================================ */
+  :root{
+    --ink:#4A4458;--ink-soft:#6B6478;--muted:#928BA0;--faint:#B4AEC2;
+    --glass:rgba(255,255,255,.30);--glass-line:rgba(255,255,255,.60);
+    --margin:rgba(224,120,150,.40);--highlight:#FDE68A;--recent-ink:#7A5A12;
+    --accent:#C4B5FD;--accent-ink:#463C6B;--accent-hover:#B7A6F5;
+    --title-ink:#5B5470;--name-ink:#463C55;--link-ink:#7C6FC0;--flag-num:#C68A2E;
+    --input-bg:rgba(255,255,255,.85);--input-border:rgba(74,68,88,.16);
+    --seg-on-bg:#EDE9FE;--seg-on-ink:#6D5FB8;
+    --code-bg:rgba(0,0,0,.07);--code-ink:#5A5468;--pilot-ink:#9A6BA0;--pilot-border:#D8B6DC;
+    --dash:rgba(74,68,88,.18);--menu-bg:#fff;--menu-hover:#F4F1FB;
+    --modal-bg:#fff;--modal-line:#F0ECF7;--swatch-border:rgba(74,68,88,.12);--swatch-sel:#5B5470;
+    --version-line:#E6E1F0;--version-dot:#D8D0EC;--version-cur:#9FD8B4;--version-cur-ink:#4F9E6E;
+    --btn-bg:rgba(255,255,255,.7);--btn-border:rgba(74,68,88,.14);--btn-hover:#fff;--ghost-hover:rgba(255,255,255,.6);
+    --danger:#C97C86;--overlay:rgba(90,80,110,.34);
+    --body-bg:linear-gradient(135deg,#FDEEF4 0%,#EAF1FE 36%,#E6F7F1 70%,#FBF3E4 100%);
+    --note-shadow:0 1px 1px rgba(74,68,88,.06), 0 8px 18px rgba(74,68,88,.10);
+    --note-shadow-hover:0 4px 6px rgba(74,68,88,.08),0 16px 30px rgba(74,68,88,.16);
+    --board-shadow:0 10px 40px rgba(120,110,150,.16);
+    --radius:16px;--recent-days:7;
+  }
+  [data-theme="dark"]{
+    --ink:#E7E8EB;--ink-soft:#BDBFC5;--muted:#8B8E96;--faint:#5E616A;
+    --glass:rgba(255,255,255,.045);--glass-line:rgba(255,255,255,.09);
+    --margin:rgba(255,255,255,.14);--highlight:rgba(255,255,255,.16);--recent-ink:#EFEFF1;
+    --accent:#E7E8EB;--accent-ink:#1C1E22;--accent-hover:#FFFFFF;
+    --title-ink:#EDEEF0;--name-ink:#F0F0F2;--link-ink:#C9CBD1;--flag-num:#D6D8DD;
+    --input-bg:rgba(255,255,255,.06);--input-border:rgba(255,255,255,.14);
+    --seg-on-bg:rgba(255,255,255,.12);--seg-on-ink:#EDEEF0;
+    --code-bg:rgba(255,255,255,.09);--code-ink:#D3D5DA;--pilot-ink:#C9CBD1;--pilot-border:rgba(255,255,255,.22);
+    --dash:rgba(255,255,255,.16);--menu-bg:#26282D;--menu-hover:rgba(255,255,255,.06);
+    --modal-bg:#24262B;--modal-line:rgba(255,255,255,.09);--swatch-border:rgba(255,255,255,.14);--swatch-sel:#EDEEF0;
+    --version-line:rgba(255,255,255,.14);--version-dot:rgba(255,255,255,.28);--version-cur:#EDEEF0;--version-cur-ink:#E7E8EB;
+    --btn-bg:rgba(255,255,255,.06);--btn-border:rgba(255,255,255,.14);--btn-hover:rgba(255,255,255,.1);--ghost-hover:rgba(255,255,255,.08);
+    --danger:#D69A9A;--overlay:rgba(0,0,0,.55);
+    --body-bg:linear-gradient(135deg,#171A1E 0%,#1D2024 40%,#191C20 75%,#212429 100%);
+    --note-shadow:0 1px 1px rgba(0,0,0,.3), 0 8px 18px rgba(0,0,0,.45);
+    --note-shadow-hover:0 4px 8px rgba(0,0,0,.4),0 18px 34px rgba(0,0,0,.55);
+    --board-shadow:0 10px 40px rgba(0,0,0,.5);
+  }
+  [data-theme="neutral"]{
+    --ink:#33322F;--ink-soft:#5C5A55;--muted:#8C8A84;--faint:#B0AEA8;
+    --glass:rgba(255,255,255,.45);--glass-line:rgba(255,255,255,.75);
+    --margin:rgba(0,0,0,.12);--highlight:#F4E4A6;--recent-ink:#6E5A1C;
+    --accent:#8C8A84;--accent-ink:#FFFFFF;--accent-hover:#7A786F;
+    --title-ink:#302F2C;--name-ink:#2C2B28;--link-ink:#5B6B8A;--flag-num:#9A7B3A;
+    --input-bg:rgba(255,255,255,.8);--input-border:rgba(0,0,0,.14);
+    --seg-on-bg:#DEDCD6;--seg-on-ink:#4A4844;
+    --code-bg:rgba(0,0,0,.08);--code-ink:#55534E;--pilot-ink:#7A6A4A;--pilot-border:#C9BFA8;
+    --dash:rgba(0,0,0,.16);--menu-bg:#F5F4F1;--menu-hover:#E9E7E2;
+    --modal-bg:#F5F4F1;--modal-line:#E3E1DB;--swatch-border:rgba(0,0,0,.12);--swatch-sel:#302F2C;
+    --version-line:#DAD8D2;--version-dot:#C6C4BD;--version-cur:#9FD8B4;--version-cur-ink:#4F9E6E;
+    --btn-bg:rgba(255,255,255,.72);--btn-border:rgba(0,0,0,.14);--btn-hover:#FFFFFF;--ghost-hover:rgba(0,0,0,.05);
+    --danger:#C0705E;--overlay:rgba(60,58,54,.4);
+    --body-bg:linear-gradient(135deg,#ECEAE5 0%,#E6E4DE 50%,#EAE7E1 100%);
+    --note-shadow:0 1px 1px rgba(60,58,54,.06), 0 8px 18px rgba(60,58,54,.12);
+    --note-shadow-hover:0 4px 6px rgba(60,58,54,.1),0 16px 30px rgba(60,58,54,.18);
+    --board-shadow:0 10px 40px rgba(120,116,108,.2);
+  }
+  *{box-sizing:border-box}html,body{margin:0;padding:0}
+  body{min-height:100vh;color:var(--ink);font-family:'Manrope',system-ui,sans-serif;font-size:14px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;background:var(--body-bg);background-attachment:fixed;transition:background .3s ease}
+  button{font-family:inherit;cursor:pointer}.hand{font-family:'Manrope',sans-serif}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.note{transform:none!important}}
+  .wrap{max-width:1200px;margin:0 auto;padding:26px 20px 70px}
+
+  header.top{display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;margin-bottom:20px}
+  .title-block h1{font-family:'Manrope',sans-serif;font-weight:700;font-size:36px;line-height:1.1;margin:0;color:var(--title-ink)}
+  .title-block p{margin:2px 0 0;color:var(--ink-soft);font-size:14px;font-weight:500}
+  .head-actions{display:flex;align-items:center;gap:12px}
+
+  .pills{display:flex;gap:8px}
+  .pill{flex:1;min-width:0;background:var(--glass);border:1px solid var(--glass-line);border-radius:14px;padding:9px 14px;text-align:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .pill .num{font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;line-height:1;color:var(--title-ink)}
+  .pill.flag .num{color:var(--flag-num)}
+  .pill-btn{cursor:pointer;font-family:inherit;transition:.15s}
+  .pill-btn:hover{background:var(--btn-hover);transform:translateY(-2px)}
+  .pill-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .pill .lbl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+  .btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--btn-border);background:var(--btn-bg);color:var(--ink);
+    border-radius:12px;padding:9px 15px;font-size:13.5px;font-weight:600;transition:.15s}
+  .btn:hover{background:var(--btn-hover);transform:translateY(-1px)}
+  .btn.primary{background:var(--accent);border-color:transparent;color:var(--accent-ink)}
+  .btn.primary:hover{background:var(--accent-hover)}
+  .btn.ghost{border-color:transparent;background:transparent;color:var(--muted);padding:6px 8px}
+  .btn.ghost:hover{background:var(--ghost-hover);color:var(--ink)}
+  .btn.sm{padding:6px 12px;font-size:12.5px;border-radius:10px}
+  .btn.danger{color:var(--danger);border-color:transparent;background:transparent}
+  .btn.danger:hover{background:rgba(201,124,134,.14)}
+  .icon-btn{width:38px;height:38px;padding:0;justify-content:center;font-size:17px;line-height:1}
+
+  .board{background:var(--glass);border:1px solid var(--glass-line);border-radius:26px;box-shadow:var(--board-shadow);
+    backdrop-filter:blur(16px) saturate(125%);-webkit-backdrop-filter:blur(16px) saturate(125%);padding:20px 20px 26px;transition:background .3s ease}
+
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px}
+  .search input[type=text]{width:100%;padding:10px 12px 10px 40px;border:1px solid var(--input-border);border-radius:12px;background:var(--input-bg);font-size:13.5px;font-weight:500;color:var(--ink)}
+  .search input::placeholder{color:var(--faint)}
+  .search input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  .search{position:relative;flex:1;min-width:200px;display:flex;align-items:center}
+  .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--faint);pointer-events:none}
+  .seg{display:inline-flex;border:1px solid var(--input-border);border-radius:12px;overflow:hidden;background:var(--btn-bg)}
+  .seg button{border:0;background:transparent;padding:9px 14px;font-size:12.5px;font-weight:600;color:var(--muted);border-right:1px solid var(--input-border)}
+  .seg button:last-child{border-right:0}
+  .seg button.on{background:var(--seg-on-bg);color:var(--seg-on-ink)}
+  .daterange{display:flex;align-items:center;gap:6px;border:1px solid var(--input-border);border-radius:12px;background:var(--btn-bg);padding:3px 8px}
+  .daterange.active{border-color:var(--accent)}
+  .dr-label{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .dr-arrow{color:var(--faint);font-size:12px}
+  .daterange input[type=date]{width:auto;padding:5px 6px;border:0;border-radius:7px;background:transparent;font-size:12px;font-weight:600;color:var(--ink);color-scheme:light}
+  [data-theme="dark"] .daterange input[type=date]{color-scheme:dark}
+  .daterange input[type=date]:focus{outline:2px solid var(--accent);outline-offset:0}
+  .dr-clear{border:0;background:none;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;padding:2px 5px;border-radius:6px}
+  .dr-clear:hover{background:var(--ghost-hover);color:var(--ink)}
+
+  .note{position:relative;background:var(--paper);border-radius:12px;box-shadow:var(--note-shadow);padding:22px 18px 15px 34px;
+    display:flex;flex-direction:column;min-height:170px;transform:rotate(var(--tilt));transition:transform .18s ease, box-shadow .18s ease;
+    background-image:linear-gradient(90deg,transparent 25px,var(--margin) 25px,var(--margin) 26px,transparent 26px)}
+  .note:hover{transform:rotate(0) translateY(-4px);box-shadow:var(--note-shadow-hover);z-index:5}
+  .note::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(var(--tape-rot));width:78px;height:20px;background:var(--tape);border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.14);opacity:.9}
+
+  .note-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+  .note-title{cursor:pointer;border-radius:8px;margin:-4px;padding:4px}
+  .note-title:hover{background:rgba(0,0,0,.04)}
+  [data-theme="dark"] .note-title:hover{background:rgba(255,255,255,.05)}
+  .client-name{font-family:'Manrope',sans-serif;font-weight:700;font-size:21px;line-height:1.2;color:var(--name-ink)}
+  .client-meta{display:flex;align-items:center;gap:7px;margin-top:6px;flex-wrap:wrap}
+  .code-tag{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--code-ink);background:var(--code-bg);padding:2px 8px;border-radius:6px}
+  button.code-tag{border:0;font-family:inherit;line-height:1.45;cursor:pointer;transition:filter .12s}
+  button.code-tag:hover{filter:brightness(.94);text-decoration:underline}
+  button.code-tag:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(12px);background:rgba(28,28,32,.95);color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.28);opacity:0;transition:opacity .25s,transform .25s;z-index:9999;pointer-events:none;max-width:82vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .pilot{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--pilot-ink);border:1px solid var(--pilot-border);padding:1px 6px;border-radius:6px}
+
+  .spotlight-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;align-items:start}
+  .spotlight-left{display:flex;flex-direction:column;gap:18px}
+  .spotlight-left .note{width:100%}
+  .preview-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
+  .preview-grid.multi{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+
+  .type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .type-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 6px;
+    border:1px solid var(--glass-line);background:var(--glass);border-radius:14px;cursor:pointer;transition:.15s;
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .type-btn:hover{background:var(--btn-hover);transform:translateY(-2px)}
+  .type-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .type-btn.on{background:var(--accent);border-color:var(--accent)}
+  .type-btn.on .type-label{color:var(--accent-ink)}
+  .type-icon{width:27px;height:27px;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;background-color:var(--ink-soft);transition:background-color .15s}
+  .type-btn.on .type-icon{background-color:var(--accent-ink)}
+  .type-btn[data-type="editing_jobs"].on{background:#06CCC1;border-color:#06CCC1}
+  .type-btn[data-type="editing_jobs"].on .type-label{color:#0E312E}
+  .type-btn[data-type="editing_jobs"].on .type-icon{background-color:#0E312E}
+  .type-btn[data-type="food"].on{background:#FF5E03;border-color:#FF5E03}
+  .type-btn[data-type="food"].on .type-label{color:#FFFFFF}
+  .type-btn[data-type="food"].on .type-icon{background-color:#FFFFFF}
+  .type-btn[data-type="real_estate"].on{background:#C82348;border-color:#C82348}
+  .type-btn[data-type="real_estate"].on .type-label{color:#FFFFFF}
+  .type-btn[data-type="real_estate"].on .type-icon{background-color:#FFFFFF}
+  .type-btn[data-type="automotive"].on{background:#146CFA;border-color:#146CFA}
+  .type-btn[data-type="automotive"].on .type-label{color:#FFFFFF}
+  .type-btn[data-type="automotive"].on .type-icon{background-color:#FFFFFF}
+  .type-btn[data-type="team_office"].on{background:#24AB4F;border-color:#24AB4F}
+  .type-btn[data-type="team_office"].on .type-label{color:#FFFFFF}
+  .type-btn[data-type="team_office"].on .type-icon{background-color:#FFFFFF}
+  .type-btn[data-type="product"].on{background:#FFB719;border-color:#FFB719}
+  .type-btn[data-type="product"].on .type-label{color:#3A2B00}
+  .type-btn[data-type="product"].on .type-icon{background-color:#3A2B00}
+  .type-btn[data-type="event"].on{background:#831DD0;border-color:#831DD0}
+  .type-btn[data-type="event"].on .type-label{color:#FFFFFF}
+  .type-btn[data-type="event"].on .type-icon{background-color:#FFFFFF}
+  .type-btn[data-type="portrait"].on{background:#E40F93;border-color:#E40F93}
+  .type-btn[data-type="portrait"].on .type-label{color:#FFFFFF}
+  .type-btn[data-type="portrait"].on .type-icon{background-color:#FFFFFF}
+  [data-theme="light"] .type-btn[data-type="editing_jobs"].on{background:#D3FEFB;border-color:#79F8F1}
+  [data-theme="light"] .type-btn[data-type="editing_jobs"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="editing_jobs"].on .type-icon{background-color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="food"].on{background:#FFE8DB;border-color:#FFA979}
+  [data-theme="light"] .type-btn[data-type="food"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="food"].on .type-icon{background-color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="real_estate"].on{background:#F9DDE4;border-color:#E87992}
+  [data-theme="light"] .type-btn[data-type="real_estate"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="real_estate"].on .type-icon{background-color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="automotive"].on{background:#E7F0FE;border-color:#87B4FC}
+  [data-theme="light"] .type-btn[data-type="automotive"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="automotive"].on .type-icon{background-color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="team_office"].on{background:#D7F7E1;border-color:#66DF8C}
+  [data-theme="light"] .type-btn[data-type="team_office"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="team_office"].on .type-icon{background-color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="product"].on{background:#FFEECA;border-color:#FFD067}
+  [data-theme="light"] .type-btn[data-type="product"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="product"].on .type-icon{background-color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="event"].on{background:#F7EFFD;border-color:#C288EE}
+  [data-theme="light"] .type-btn[data-type="event"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="event"].on .type-icon{background-color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="portrait"].on{background:#FFEBF8;border-color:#F673C4}
+  [data-theme="light"] .type-btn[data-type="portrait"].on .type-label{color:#1C1813}
+  [data-theme="light"] .type-btn[data-type="portrait"].on .type-icon{background-color:#1C1813}
+  .type-btn[data-type="editing_jobs"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAadJREFUeAHt2+FtgkAcQPE/TQfpJrpJ6WRlFNzEEbrB9Rr5UKNG8cB3wPslxA9twulLDrhwEZIkSZIkSS/TjPnnlNJH/tgHq2+a5njtD7WPr1j+gm3itUsd3zVvIZQBYAaAvUe5Lh+HmMc+H59RpouKxzdFgEO+6ncxg3xB+/soDVD1+JyCYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYFO8FbEb3g6Ywy7KVT2+KQK0w1GrNioen1MQzAAwA8DcoDG9+TZoSJIkrcaqbkOfdeN71Xc7mRa4D7fge7XxAj4JwwwAMwBsC/uEq7aFfcJVcwqCGQBmAJgBYAaAGQBmANgUzwHVSM+v1l57w22Xzt+oO+bnnf6B841aRV1VgDj9GN8xjTbO36jrh+Pe+b7itDrwEKcgmAFgBoCt7RrQx2kOHmsfl4t+XZyv8v7EY+frY4RVBRjuProY6caq691V3mfP959TEMwAMAPADAAzAMwAMAPAtrBPuGpb2CdcNacgmAFgBoC5QSMWtEFDkiRJkiSpzC8hIBMy67ge/wAAAABJRU5ErkJggg==);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAadJREFUeAHt2+FtgkAcQPE/TQfpJrpJ6WRlFNzEEbrB9Rr5UKNG8cB3wPslxA9twulLDrhwEZIkSZIkSS/TjPnnlNJH/tgHq2+a5njtD7WPr1j+gm3itUsd3zVvIZQBYAaAvUe5Lh+HmMc+H59RpouKxzdFgEO+6ncxg3xB+/soDVD1+JyCYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYFO8FbEb3g6Ywy7KVT2+KQK0w1GrNioen1MQzAAwA8DcoDG9+TZoSJIkrcaqbkOfdeN71Xc7mRa4D7fge7XxAj4JwwwAMwBsC/uEq7aFfcJVcwqCGQBmAJgBYAaAGQBmANgUzwHVSM+v1l57w22Xzt+oO+bnnf6B841aRV1VgDj9GN8xjTbO36jrh+Pe+b7itDrwEKcgmAFgBoCt7RrQx2kOHmsfl4t+XZyv8v7EY+frY4RVBRjuProY6caq691V3mfP959TEMwAMAPADAAzAMwAMAPAtrBPuGpb2CdcNacgmAFgBoC5QSMWtEFDkiRJkiSpzC8hIBMy67ge/wAAAABJRU5ErkJggg==)}
+  .type-btn[data-type="food"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA21JREFUeAHt3Y1x00AQBeA1QwHpIKKDUEFMB+kA0wFUEKcCQgUOHYQKrFTgdCB1EKhguUXHMDEr29JJ92T7fTMeM7Ktn3vS3UknBREiIiIiIiIiomxmXb6sqkV4m8u0lbPZrD7kiy3bk+33nYUFLnT6Fonbk+335o0QFAMAYwBgbyXdQ3g9CcY8vD7KERsigKfQ6j8IQGjw7O2oA2AVBMYAwBgAGAMAYwBgDACMAYAxADAGAMYAwBgAGAMAYwBgDACMAYAxADAGAMYAwIYYkjxacSj1QYB4BKS5kEQMIE3hTKulAwaQ5tqZVksHDKAnbW7MvdqaXHe9MXeIAArBKZxpPyWPW2daKR11DaB2pl0KjtcIjh5A3PsXzkffZewFO7djbwQkLHvtrE9yz2TPMi/Cq3KWu5YcwoJecm90y3p4O0MlI4qFv1HfVZ959mkDfjjTFpLf3JlWykhiAdvR7hX0t9D4PksO6j8Vkufwe70elbMeCxmYFXx4rbRd0lHX6RmxuEJW3dhCt6udD2EvKCWDWNCrrcnWBXwnHWj7M2+2bZfxs11VSy3NdteSU1jxpbcnaIa2QNsbwVWPeaU887aJAeYXC8FrjL/KyGwZLQVSSEcJAdwroOOxvfLLlpW7lZHYvFuWuZQeegSwDq+5TIW2d8kGD2FH4fduBA8MoNJmj5/L1GjTF39pWXGrKpIPU22qu7Zqx5ZdSE8tAazi9BtF1fFd6O69qNKErqHtdeo3uH/dSAId4EHrSdD9h3IVv1McMC/b4z+rf5lh0ILSCQQwyJCkDe2FFbeLYNYV9KqdIn5mG12GNztr/CX/Lu7Z59bvvpLd/W5jy/mCejJz0rRpEyodz6B97ykcAYMOyNgZYTwbvZNh2V5/F+b9PvtZ58hGGRELhbQMbxaEXR+vpb8/BW/zivM8OaPdlhL31IX9Ox7Wc2nGUIs9P7VCf5Tmzx88hvnkGuE6D9r0cryz6HvN3O8+uTbgEHGPrp2Pnk+tfj8E74oAYwBgDACMAYAxADAGAMYAwBgAGAMAYwBgDACMAYCd9VOS0lz6Lrem1ZLRuT+mauMOjwLEKgiMAYAxALDkNqDnEJ73fO21Nn8NvZOU+4M09/8BMwYFkwR6jmPC9BoDAGMAYEOciH2S41XK/+tfChERERERERHRafoNAvRXR5yyuvsAAAAASUVORK5CYII=);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA21JREFUeAHt3Y1x00AQBeA1QwHpIKKDUEFMB+kA0wFUEKcCQgUOHYQKrFTgdCB1EKhguUXHMDEr29JJ92T7fTMeM7Ktn3vS3UknBREiIiIiIiIiomxmXb6sqkV4m8u0lbPZrD7kiy3bk+33nYUFLnT6Fonbk+335o0QFAMAYwBgbyXdQ3g9CcY8vD7KERsigKfQ6j8IQGjw7O2oA2AVBMYAwBgAGAMAYwBgDACMAYAxADAGAMYAwBgAGAMAYwBgDACMAYAxADAGAMYAwIYYkjxacSj1QYB4BKS5kEQMIE3hTKulAwaQ5tqZVksHDKAnbW7MvdqaXHe9MXeIAArBKZxpPyWPW2daKR11DaB2pl0KjtcIjh5A3PsXzkffZewFO7djbwQkLHvtrE9yz2TPMi/Cq3KWu5YcwoJecm90y3p4O0MlI4qFv1HfVZ959mkDfjjTFpLf3JlWykhiAdvR7hX0t9D4PksO6j8Vkufwe70elbMeCxmYFXx4rbRd0lHX6RmxuEJW3dhCt6udD2EvKCWDWNCrrcnWBXwnHWj7M2+2bZfxs11VSy3NdteSU1jxpbcnaIa2QNsbwVWPeaU887aJAeYXC8FrjL/KyGwZLQVSSEcJAdwroOOxvfLLlpW7lZHYvFuWuZQeegSwDq+5TIW2d8kGD2FH4fduBA8MoNJmj5/L1GjTF39pWXGrKpIPU22qu7Zqx5ZdSE8tAazi9BtF1fFd6O69qNKErqHtdeo3uH/dSAId4EHrSdD9h3IVv1McMC/b4z+rf5lh0ILSCQQwyJCkDe2FFbeLYNYV9KqdIn5mG12GNztr/CX/Lu7Z59bvvpLd/W5jy/mCejJz0rRpEyodz6B97ykcAYMOyNgZYTwbvZNh2V5/F+b9PvtZ58hGGRELhbQMbxaEXR+vpb8/BW/zivM8OaPdlhL31IX9Ox7Wc2nGUIs9P7VCf5Tmzx88hvnkGuE6D9r0cryz6HvN3O8+uTbgEHGPrp2Pnk+tfj8E74oAYwBgDACMAYAxADAGAMYAwBgAGAMAYwBgDACMAYCd9VOS0lz6Lrem1ZLRuT+mauMOjwLEKgiMAYAxALDkNqDnEJ73fO21Nn8NvZOU+4M09/8BMwYFkwR6jmPC9BoDAGMAYEOciH2S41XK/+tfChERERERERHRafoNAvRXR5yyuvsAAAAASUVORK5CYII=)}
+  .type-btn[data-type="real_estate"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAw1JREFUeAHt3YFx2jAUBuCfXgfoBiUbdIMok5RM0HSCJBO0maDuJDUbtBuwQdlAeTrbOQ4CkrDlJ8n/d/eOS3Au5P1G2EI4ABERERER5cJa+wk0P9d4qUep/1IGNI+jxg/+gNI60/hDBgmtMII8uLXcGIzTrlarHWbWj/HfpB6kLo337vHdIUfyR2zseBvMyO00nj3+kNvmCQl9xEL0z9ZHqU3A5jupZ9nzGyRWfQD9GP4VYY13fkrjv2Mm1QbQN97t8QZx/mFGKQJopLZn7jPo9sZkIhu/k1pDUYoAtufGTmmOu0kSQGTjW6lndM3/BUUfUDjXeNudMLkyns1bqTt3WCnVIgPFvgZcs8fn0vRDxQXQnze4E6gvAZs3Ur9zbPygmAD6xrs9fh2weYNuj98hc1kHEDFd4OylXqSaEho/yDKAKxvvTqD2KExWASyp8YMsAlhi4wc5BOBOzH5gYY0f5BCA8dxfZeMHOR8F7TDTlLCmWQKInBL+K/VSe+MHSQOoZbogpSQBsPHhUgQQOl3QYsGNH6QIYO25vwUb/2ZsAJ8jtm3Bxp+4KoDapoQ1RQVQ65SwpqAA3EImhM3TOA3Y+GCh7wkbhDXf2bL54UKHILeCwGAZbvvVG5OY7IzerTw4XjMp9aC91nMMO83a1ot8jyFmWYp7Fuz72xtJ9qn/mkYIPgpyh5ES6E2NU8KaohZmsfnTW8zy9AgN4ta2XtreiwGcil3buh1zpFP82tDSMQBlDEAZA1DGAJQxAGUMQBkDUMYAlDEAZQxAGQNQxgCUqc6G2mmuN3RM5fpD19KejjaY/lIB9+jm6IvAIUgZA1DGAJTl+JZkg/D3WA0SX38otRwDCH6P1Sa8/tBcOAQpYwDKGIAyBqCMASjL/YJNa5zOFRU11+OT+9JEg9O5oqLmenw4BCljAMoYgLLcXwNadGP+8feqkXUA/dFOg4pxCFLmfQZ4PnZ6+973bPjnbEv7+ejf55vZ9f4TH2sn/NTyAkkAF3vMIUgZA1DGAJSFHIbeg4iIiIiIiIiIavAKO+0xZjUIrF8AAAAASUVORK5CYII=);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAw1JREFUeAHt3YFx2jAUBuCfXgfoBiUbdIMok5RM0HSCJBO0maDuJDUbtBuwQdlAeTrbOQ4CkrDlJ8n/d/eOS3Au5P1G2EI4ABERERER5cJa+wk0P9d4qUep/1IGNI+jxg/+gNI60/hDBgmtMII8uLXcGIzTrlarHWbWj/HfpB6kLo337vHdIUfyR2zseBvMyO00nj3+kNvmCQl9xEL0z9ZHqU3A5jupZ9nzGyRWfQD9GP4VYY13fkrjv2Mm1QbQN97t8QZx/mFGKQJopLZn7jPo9sZkIhu/k1pDUYoAtufGTmmOu0kSQGTjW6lndM3/BUUfUDjXeNudMLkyns1bqTt3WCnVIgPFvgZcs8fn0vRDxQXQnze4E6gvAZs3Ur9zbPygmAD6xrs9fh2weYNuj98hc1kHEDFd4OylXqSaEho/yDKAKxvvTqD2KExWASyp8YMsAlhi4wc5BOBOzH5gYY0f5BCA8dxfZeMHOR8F7TDTlLCmWQKInBL+K/VSe+MHSQOoZbogpSQBsPHhUgQQOl3QYsGNH6QIYO25vwUb/2ZsAJ8jtm3Bxp+4KoDapoQ1RQVQ65SwpqAA3EImhM3TOA3Y+GCh7wkbhDXf2bL54UKHILeCwGAZbvvVG5OY7IzerTw4XjMp9aC91nMMO83a1ot8jyFmWYp7Fuz72xtJ9qn/mkYIPgpyh5ES6E2NU8KaohZmsfnTW8zy9AgN4ta2XtreiwGcil3buh1zpFP82tDSMQBlDEAZA1DGAJQxAGUMQBkDUMYAlDEAZQxAGQNQxgCUqc6G2mmuN3RM5fpD19KejjaY/lIB9+jm6IvAIUgZA1DGAJTl+JZkg/D3WA0SX38otRwDCH6P1Sa8/tBcOAQpYwDKGIAyBqCMASjL/YJNa5zOFRU11+OT+9JEg9O5oqLmenw4BCljAMoYgLLcXwNadGP+8feqkXUA/dFOg4pxCFLmfQZ4PnZ6+973bPjnbEv7+ejf55vZ9f4TH2sn/NTyAkkAF3vMIUgZA1DGAJSFHIbeg4iIiIiIiIiIavAKO+0xZjUIrF8AAAAASUVORK5CYII=)}
+  .type-btn[data-type="automotive"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA4BJREFUeAHt3I1R2zAUB/CXHgOwQcUEpBPgTWomaDconSBhgtIJOkLCBLQTxBvABq9PJ/ugQRKWoi+X/+/Ol7s4tl+sTz87IQIAAAAAAAAAAAAAAAAAAAAASG5FhTDzWl7W1KZhtVrtqYKSBXCQF0VtepLlQgrhiQr7QAXIye+p3ZOvncvylSoo0gIar/2TKq0gewtYQO2fVGkF2VuAo/bfyvKbwnWyfD56706WewrXWfZVbSzIQtd+fu1AkRz76ymCbHcuy6NlfzdUUO4u6Jvlve/UgLGW31pWfdGFQ4VkKwBH36/n23fUji2ZbuelomNBzhbQbO2ftNAKshTAQmr/pGoryNUCmq/9k9qtIHkBLKz2T6q1ghwtYDG1f1KzFSQtgIXW/kmVVpC6BSyu9k9qtYIz30o5sCJzyT7HJTlyPrFXqxZXtvdk/5SILQWhT/5GjhGT7tD2UriDa6U3FzSeuB8Ep7j2dcFF7geAGwqgMhRAZWcU7o7i8u/vQUev7zF4xRTA/ULm9cWNs7GgAkAXVFlMC/DOu0u2Dsd1infeneCYvWf1FaU+GAeiglLeogw4Zqjetz90QZWhACqLGQOCjcmsjkxeRRvIZEkHakDN+LJeB4z9n56WdY71+tmg2xMG7r0s15b3ZomM79qzy44Cp6FesYOcfEbJ8sDzHdjMaIrIFV/M+cpxS3ItLw8U9ii60tuM22bVWnyp74gpednRc18aQm+z44wtocX4Ug/Cri+nb3T8JDO4abom6YsWdfQ5ve0vWT5RHq3H96+QPo3dF21bttzSG/vhrWObnhIrER+nvjDksAKwDWrbGcewfckdJVYiPo4ogJS5oOMBaiDzpMFbbshM3V7Wwo7Tt4IS8dXPBb0w+14yu5t6TqXi6337zpmK+BPw2YHKayI+5IIqy1kAKuCzl1SeCvhstvjeei5I0fwHs4771Fm/t+LniyN1tMqXc4lRK759kaSjBLqzDECbGdttLNs9UGKtx3cyds+YNmy5fGfzI7kNR8wc/qf4kv5MdawZtoTVQCZNPM08PsrSkz0toPPwF5RB6/GdjM3l+yPHe+TMyThuOL4kJMA1x31JvU2RdDQ3HF8SbGraIeDL6TyNokJajy8ZNgOf787TjjM/RtJ6fKX+LUWRmUer8S0999638p8MrccHAAAAAAAAAAAAAAAAAAAAABDoLxl8K+Uw9wzWAAAAAElFTkSuQmCC);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA4BJREFUeAHt3I1R2zAUB/CXHgOwQcUEpBPgTWomaDconSBhgtIJOkLCBLQTxBvABq9PJ/ugQRKWoi+X/+/Ol7s4tl+sTz87IQIAAAAAAAAAAAAAAAAAAAAASG5FhTDzWl7W1KZhtVrtqYKSBXCQF0VtepLlQgrhiQr7QAXIye+p3ZOvncvylSoo0gIar/2TKq0gewtYQO2fVGkF2VuAo/bfyvKbwnWyfD56706WewrXWfZVbSzIQtd+fu1AkRz76ymCbHcuy6NlfzdUUO4u6Jvlve/UgLGW31pWfdGFQ4VkKwBH36/n23fUji2ZbuelomNBzhbQbO2ftNAKshTAQmr/pGoryNUCmq/9k9qtIHkBLKz2T6q1ghwtYDG1f1KzFSQtgIXW/kmVVpC6BSyu9k9qtYIz30o5sCJzyT7HJTlyPrFXqxZXtvdk/5SILQWhT/5GjhGT7tD2UriDa6U3FzSeuB8Ep7j2dcFF7geAGwqgMhRAZWcU7o7i8u/vQUev7zF4xRTA/ULm9cWNs7GgAkAXVFlMC/DOu0u2Dsd1infeneCYvWf1FaU+GAeiglLeogw4Zqjetz90QZWhACqLGQOCjcmsjkxeRRvIZEkHakDN+LJeB4z9n56WdY71+tmg2xMG7r0s15b3ZomM79qzy44Cp6FesYOcfEbJ8sDzHdjMaIrIFV/M+cpxS3ItLw8U9ii60tuM22bVWnyp74gpednRc18aQm+z44wtocX4Ug/Cri+nb3T8JDO4abom6YsWdfQ5ve0vWT5RHq3H96+QPo3dF21bttzSG/vhrWObnhIrER+nvjDksAKwDWrbGcewfckdJVYiPo4ogJS5oOMBaiDzpMFbbshM3V7Wwo7Tt4IS8dXPBb0w+14yu5t6TqXi6337zpmK+BPw2YHKayI+5IIqy1kAKuCzl1SeCvhstvjeei5I0fwHs4771Fm/t+LniyN1tMqXc4lRK759kaSjBLqzDECbGdttLNs9UGKtx3cyds+YNmy5fGfzI7kNR8wc/qf4kv5MdawZtoTVQCZNPM08PsrSkz0toPPwF5RB6/GdjM3l+yPHe+TMyThuOL4kJMA1x31JvU2RdDQ3HF8SbGraIeDL6TyNokJajy8ZNgOf787TjjM/RtJ6fKX+LUWRmUer8S0999638p8MrccHAAAAAAAAAAAAAAAAAAAAABDoLxl8K+Uw9wzWAAAAAElFTkSuQmCC)}
+  .type-btn[data-type="team_office"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAABCRJREFUeAHtmoFV2zAQhi99HYANqk5AOkHcDbpBzQTtBqUTkA0aJqAbOEwATGBvABtcpWdRgjkpliVLBv7vPT2ILMs+nXQn3ZkIAAAAAAAAAAAAAAAAAJidFb1CmHmt/6wPqh506Var1S2BedCDXunS6HLPbsy1K11qAmmwA99yOC0UEYEevBNdLjge08cJgfHYwb/hdNwsVQmLc8J2oBp67mSH7HW50+XR6SpdNrpUnntM26/aUT8QcMNus2Mc7LlvJutryrZxcUHAjR6g2jFwrRncgH4Uux13RQsiiQmys7LS5XF2dtTvyzsKwAwa9ebkkI5609FRAFZhjdSf7uszBZBKvuTYGduwG+P86oC+JBRNxK6E+6mrIKV8SbGChexS2mMDyf0Basg5RcKyT2gos3zJ0A9as/806sLcs/b0K/WpKBLut7Qv3oUyy5cEdi/pkJdUJAs9pKFEsGxG1rnk8/GRwjCDIm0Dzd76knrnZDDCmX25GrQz917p8mVQr4Q+rykd5sxQDerMOw6Dd3PJFw+7neSWhb25nU1bxz31iL5rSsSY/ueUL5UQklPajrhPeslm0GYJCphNvhQCKOEhLY+wd9w7Qcmunhy0qacIH/D+0k7oWy75fHygcSihbj/mIGJjL5fCpergfymRckrp2Ah13cH/SrieUj4nMQq4o/F0Qt3/GWIzWcMgWcUJIph2FleD6odB9kwJtyaTz8dYBeRAWgU/KZ7vQl3KHVYUYxUghXAVjUcyJ93g92+hzQ+ODEXoP+fCpb+D3znkmw47TpNjTAS7I5NKaNtOdYYBz21LyRcFy6fJo/F1luP7N462Fcu0IQKxPxxdUyH5omD3QeWC5dnsy+nWnue4DjeGX+xRhH2maeMKJ2xLyzckKB/AvWalgFNHT2lCwyddapJ3At54PI9PSV7Tk509te0rzz1HU5I55IuCMwWruFBSngsE44LhTOFa7pWw5XjEWE5p+aJgv5OTMDNQ0QS4t80th9PyxPxvTvmisIPjMxUNJwqq2WeZrNmxTxMbTpR4zyFfqqS8ov7gomyVcXT7ub7B4X6pK3ruBG/n+jg3t3wAvB+yfprIcmRyaexzfu8TmhOOpdLlDy2bM112lIklhaPfJVBAYbwmaAabvaHls9FyU0K8PsXrhO0hY26bvaNyGaqK5IxZSs60Anaui7mdsMS17wXnxM70uRXgBT6gMEtYAbPh8GFZ9/nHmKKAHU232RXlXfIVvfRhx/b55lo2+aYoYLLNXoLNHUFW+eADCgMFFOZNO2HqE+lnQt1ieNMKsLudHS0YmKDCQAGFgQIKAwUUBgooDBRQGCigMFBAYaCAwkABhfGGImxYdkdgFFPGCyugMFBAYaCAwkABhYECCgMFFAYKAAAAAAAAAAAAAAAAAAAAmJl/SY1K1vf25usAAAAASUVORK5CYII=);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAABCRJREFUeAHtmoFV2zAQhi99HYANqk5AOkHcDbpBzQTtBqUTkA0aJqAbOEwATGBvABtcpWdRgjkpliVLBv7vPT2ILMs+nXQn3ZkIAAAAAAAAAAAAAAAAAJidFb1CmHmt/6wPqh506Var1S2BedCDXunS6HLPbsy1K11qAmmwA99yOC0UEYEevBNdLjge08cJgfHYwb/hdNwsVQmLc8J2oBp67mSH7HW50+XR6SpdNrpUnntM26/aUT8QcMNus2Mc7LlvJutryrZxcUHAjR6g2jFwrRncgH4Uux13RQsiiQmys7LS5XF2dtTvyzsKwAwa9ebkkI5609FRAFZhjdSf7uszBZBKvuTYGduwG+P86oC+JBRNxK6E+6mrIKV8SbGChexS2mMDyf0Basg5RcKyT2gos3zJ0A9as/806sLcs/b0K/WpKBLut7Qv3oUyy5cEdi/pkJdUJAs9pKFEsGxG1rnk8/GRwjCDIm0Dzd76knrnZDDCmX25GrQz917p8mVQr4Q+rykd5sxQDerMOw6Dd3PJFw+7neSWhb25nU1bxz31iL5rSsSY/ueUL5UQklPajrhPeslm0GYJCphNvhQCKOEhLY+wd9w7Qcmunhy0qacIH/D+0k7oWy75fHygcSihbj/mIGJjL5fCpergfymRckrp2Ah13cH/SrieUj4nMQq4o/F0Qt3/GWIzWcMgWcUJIph2FleD6odB9kwJtyaTz8dYBeRAWgU/KZ7vQl3KHVYUYxUghXAVjUcyJ93g92+hzQ+ODEXoP+fCpb+D3znkmw47TpNjTAS7I5NKaNtOdYYBz21LyRcFy6fJo/F1luP7N462Fcu0IQKxPxxdUyH5omD3QeWC5dnsy+nWnue4DjeGX+xRhH2maeMKJ2xLyzckKB/AvWalgFNHT2lCwyddapJ3At54PI9PSV7Tk509te0rzz1HU5I55IuCMwWruFBSngsE44LhTOFa7pWw5XjEWE5p+aJgv5OTMDNQ0QS4t80th9PyxPxvTvmisIPjMxUNJwqq2WeZrNmxTxMbTpR4zyFfqqS8ov7gomyVcXT7ub7B4X6pK3ruBG/n+jg3t3wAvB+yfprIcmRyaexzfu8TmhOOpdLlDy2bM112lIklhaPfJVBAYbwmaAabvaHls9FyU0K8PsXrhO0hY26bvaNyGaqK5IxZSs60Anaui7mdsMS17wXnxM70uRXgBT6gMEtYAbPh8GFZ9/nHmKKAHU232RXlXfIVvfRhx/b55lo2+aYoYLLNXoLNHUFW+eADCgMFFOZNO2HqE+lnQt1ieNMKsLudHS0YmKDCQAGFgQIKAwUUBgooDBRQGCigMFBAYaCAwkABhfGGImxYdkdgFFPGCyugMFBAYaCAwkABhYECCgMFFAYKAAAAAAAAAAAAAAAAAAAAmJl/SY1K1vf25usAAAAASUVORK5CYII=)}
+  .type-btn[data-type="product"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAulJREFUeAHt3Y9xmzAYBfDPvQ7gEdig3cCMkA3sTNBukHQDbxCP0E4QZ4KkE5hO0GygfArynWMESCDrEfN+d7rcceJP9EBCIcYiRERERETZLeSTMcYU+uNYjl5deVksFq9C6WiDL7VstDxo+W/6HVzdjdBwruHvAhu9L4xCKFyChve5E+pmz1Qtz+ZyDmZiV8NkBmFtmLX+2GpZ9lR9ceWflsotK9x637SUPevbQfpWB+vfQjXb+D1n7qOWn1qWAduyV9HGne1d1kLvDXZjuruMUgYKCGLeIbiztW2w3Yac8QH7WLpt+dh9FzJXHWfnvSRmt9myr2eZI1PfamZp/JN93ufe5ySZuuvx2cqFGX93ZLui0d3dp2Hq2em5Q45GMPWYcJj1VdDSABvJRPdVzvYqMPWtYePsl8xMPbeAnQRHXyS/lWfZL8nvj2fZSq5dS/dTSGZuLGh0Q3LNWn7pRwEx/j/8FZJR7i7ou2fZX8Hx7buQjHIH4LvLQD5CrDzLCsloCgFUglMJGOIuiE4wADAGAPY1prK7RStlON9EZ6XbFZBLHM9eH3dWoZWjngm7qfqDUBf7vHkXWpldEBgDAGMAYFGDcIudlqfAuqWW9Yj1Uytl3PGUnvWjpAjgKXTQcXcX66Hrpzb2eFrWj8IuCIwBgDEAsBRjQK+TGXTXzDNqBnlNxxOs5YH6ZuB60dtJJdXxDG2PU+yCwBgAGAMAYwBgDACMAYAxALAsEzG113IbUCeXvUzkeLIE4GaUO5mIKR0PuyAwBgDGAMAYABgDAGMAYAwAjAGAMQAwBgDGAMAYABgDAGMAYAwAjAGAMQAwBgDGAMAYABgDAGMAYAwAjAGAMQAwBgAW+6+J9v1u+7NlldBgUQG4r/3gV38kxC4IjAGAMQCwFO+Ma3yiXOvdSP/XUV2D0S/7jr0LKqX5zjj7SZPd2bIf0gyKPNgFgTEAMAYAFvve0ELCBmFbp5B5mt5rboiIiIiIPnoDcaKXbgiw1vMAAAAASUVORK5CYII=);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAulJREFUeAHt3Y9xmzAYBfDPvQ7gEdig3cCMkA3sTNBukHQDbxCP0E4QZ4KkE5hO0GygfArynWMESCDrEfN+d7rcceJP9EBCIcYiRERERETZLeSTMcYU+uNYjl5deVksFq9C6WiDL7VstDxo+W/6HVzdjdBwruHvAhu9L4xCKFyChve5E+pmz1Qtz+ZyDmZiV8NkBmFtmLX+2GpZ9lR9ceWflsotK9x637SUPevbQfpWB+vfQjXb+D1n7qOWn1qWAduyV9HGne1d1kLvDXZjuruMUgYKCGLeIbiztW2w3Yac8QH7WLpt+dh9FzJXHWfnvSRmt9myr2eZI1PfamZp/JN93ufe5ySZuuvx2cqFGX93ZLui0d3dp2Hq2em5Q45GMPWYcJj1VdDSABvJRPdVzvYqMPWtYePsl8xMPbeAnQRHXyS/lWfZL8nvj2fZSq5dS/dTSGZuLGh0Q3LNWn7pRwEx/j/8FZJR7i7ou2fZX8Hx7buQjHIH4LvLQD5CrDzLCsloCgFUglMJGOIuiE4wADAGAPY1prK7RStlON9EZ6XbFZBLHM9eH3dWoZWjngm7qfqDUBf7vHkXWpldEBgDAGMAYFGDcIudlqfAuqWW9Yj1Uytl3PGUnvWjpAjgKXTQcXcX66Hrpzb2eFrWj8IuCIwBgDEAsBRjQK+TGXTXzDNqBnlNxxOs5YH6ZuB60dtJJdXxDG2PU+yCwBgAGAMAYwBgDACMAYAxALAsEzG113IbUCeXvUzkeLIE4GaUO5mIKR0PuyAwBgDGAMAYABgDAGMAYAwAjAGAMQAwBgDGAMAYABgDAGMAYAwAjAGAMQAwBgDGAMAYABgDAGMAYAwAjAGAMQAwBgAW+6+J9v1u+7NlldBgUQG4r/3gV38kxC4IjAGAMQCwFO+Ma3yiXOvdSP/XUV2D0S/7jr0LKqX5zjj7SZPd2bIf0gyKPNgFgTEAMAYAFvve0ELCBmFbp5B5mt5rboiIiIiIPnoDcaKXbgiw1vMAAAAASUVORK5CYII=)}
+  .type-btn[data-type="event"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAalJREFUeAHt3e1twjAYAOE3VQfpJmST0smaUWCTbuIalV98pHKIc7ZyjxQh0SBRnWQbAyFCkiRJ2twQG0opfeSb8ebu0zAMPwFo7flUl//hY7p3DEgLz+cthDIAzAAwJ+E9TcKSJEnNmF2GPlmmqczssvY95o35+A694isf07M/+koYZgCYAWD/zQGPTPk4hx4Z8/FZ8oAlAc55Vp9Cd/Kq8XJTFMAhCGYAmAFgBoAZAGYAmAFgBoAZALbklfDh+opP9w5RaEmA4/XQChyCYAaAGQDm+wHrGsP3Azi+H9AhA8AMADMAzACwJaugZpR+xaj2+Ut0HSAef3Z17rOYtc8v5hAEMwDMALDe54BT/I3Jt/dR5xfrOsB1NTK1cv4SDkEwA8AMADMAzACwqqug1vZqWtwLmvXqNdVKH7+38y8cgmAGgBkAVnsr4hRt7dXUPn9dqbELrbbOSbhDBoAZAGYAmAFg7gW1fKnitPO9oFIuQztkAJgBYO4Fbbm3Uyq5F1TESbhDBoAZAGYAmAFgXi9oXV4vqDcOQTADwAwA80d86vO3KSVJktSaX4FvQfRDYB58AAAAAElFTkSuQmCC);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAalJREFUeAHt3e1twjAYAOE3VQfpJmST0smaUWCTbuIalV98pHKIc7ZyjxQh0SBRnWQbAyFCkiRJ2twQG0opfeSb8ebu0zAMPwFo7flUl//hY7p3DEgLz+cthDIAzAAwJ+E9TcKSJEnNmF2GPlmmqczssvY95o35+A694isf07M/+koYZgCYAWD/zQGPTPk4hx4Z8/FZ8oAlAc55Vp9Cd/Kq8XJTFMAhCGYAmAFgBoAZAGYAmAFgBoAZALbklfDh+opP9w5RaEmA4/XQChyCYAaAGQDm+wHrGsP3Azi+H9AhA8AMADMAzACwJaugZpR+xaj2+Ut0HSAef3Z17rOYtc8v5hAEMwDMALDe54BT/I3Jt/dR5xfrOsB1NTK1cv4SDkEwA8AMADMAzACwqqug1vZqWtwLmvXqNdVKH7+38y8cgmAGgBkAVnsr4hRt7dXUPn9dqbELrbbOSbhDBoAZAGYAmAFg7gW1fKnitPO9oFIuQztkAJgBYO4Fbbm3Uyq5F1TESbhDBoAZAGYAmAFgXi9oXV4vqDcOQTADwAwA80d86vO3KSVJktSaX4FvQfRDYB58AAAAAElFTkSuQmCC)}
+  .type-btn[data-type="portrait"] .type-icon{-webkit-mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA8FJREFUeAHtnY1x2kAQhZdMCqCEcwWmA0QFSQfBFcSpwFCBTQUmHTgVIFcQXIFVAh0ou9Exg8Wi8aEzu5j3zezIs7qTPfvgfnbPQAQAAAAAAMDJGaQ0rus68KVoucvBYFC12n3ny5Auk714ZIMDO633mSrtVvXlMk2J6RcCpkAAYyCAMV8pjZLtRvG1mbP9ps9PwfaDgA31OxclXWAIMgYCGAMBjEmahHl8K/hy13IveOf3ROAoUldBgfZTEZew2vkwMAQZAwGMgQDGQABjIIAxEMAYCGAMBDAmdSPmAt6Rj/gy2nFt2Creka/pzDgbAXbSIBL44YE2IkTJ9ofFWNIZ4H4IksCzvfKPK2rSIF2nLeSenMh4lD6puXkL3ArAwRuy3VMT+EDpBGqEuJdnkVNcChADJoG/pf7IM1ZeRXA3B+wEf9TRrGR7YdtOuoFtTPuZ2i3yLBFhwnPDhhzhcRLeTrRtJHALtodDQaybk3tT2q9ZUHym+H/RuZKjCH3E8+s4oYaE54TYR6OgTHzGorz2yq3YJinnLWPbSezb5pEc4UaA+MoJyq3JMYddd0RoD1ch57ugL57eAd8U37zPSePYd6HcuiMneBKgUHxL6s+D4huRE1wIEHM77XV6lnP2ccVUttzD+DvN8fIOCIrvmfLxovggwA7aLrWifLjNkqIeYIxnAXIOEUHxuUhJeBFAGyKuKR9jxVeRA1wIECtZ7VdkkSODWev/2bnxUj3zNARpAcmRjtb+gyXnCqsXngSYK76fKUm4NrHvTLn1RE5wIwAPCSXtj8v/awPHiBD7rJRblad6sbdV0I3iC5Qowk7wtT5zcoQrAeK7QEueBbZXDuxdlxCxjiyJtr+kB3/h7bSEx4rYjJpl4+jAvRkHuaRmIq2i/zq2L+gwa9LnA1PcCSDJM6ndUndduKDuYLeR4LurBwsud8IxUCLCgvojz3AZfMFtKkICxib7AJmYK0qnoibwt16DL7hPxsmkyXZFjRCyfu8K5jb3L4G/ipO6a87mbGhcvYhtCziB3qax1ziceyJioM8u2BqoBxgDAYyBAMZAAGMggDEnXQUdqE554+M+91Ph1MvQgpwdjlWQDd+STgSGIGMggDEQwBgPqYgl2Z1SKMj4cz89CPBsVSbkVZlcTAXAEGQMBDAGAhgDAYyBAMZAAGMggDEQwBgIYAwEMAYCGAMBjIEAxuTIho5jVvFdbXv2z03fv2dMPUn9Ms8p+a/pWnOTkl7HEGQMBDAGAhiT4wudwVtOerALAAAAAACAI/gHIKqfAS2FHwIAAAAASUVORK5CYII=);mask-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA8FJREFUeAHtnY1x2kAQhZdMCqCEcwWmA0QFSQfBFcSpwFCBTQUmHTgVIFcQXIFVAh0ou9Exg8Wi8aEzu5j3zezIs7qTPfvgfnbPQAQAAAAAAMDJGaQ0rus68KVoucvBYFC12n3ny5Auk714ZIMDO633mSrtVvXlMk2J6RcCpkAAYyCAMV8pjZLtRvG1mbP9ps9PwfaDgA31OxclXWAIMgYCGAMBjEmahHl8K/hy13IveOf3ROAoUldBgfZTEZew2vkwMAQZAwGMgQDGQABjIIAxEMAYCGAMBDAmdSPmAt6Rj/gy2nFt2Creka/pzDgbAXbSIBL44YE2IkTJ9ofFWNIZ4H4IksCzvfKPK2rSIF2nLeSenMh4lD6puXkL3ArAwRuy3VMT+EDpBGqEuJdnkVNcChADJoG/pf7IM1ZeRXA3B+wEf9TRrGR7YdtOuoFtTPuZ2i3yLBFhwnPDhhzhcRLeTrRtJHALtodDQaybk3tT2q9ZUHym+H/RuZKjCH3E8+s4oYaE54TYR6OgTHzGorz2yq3YJinnLWPbSezb5pEc4UaA+MoJyq3JMYddd0RoD1ch57ugL57eAd8U37zPSePYd6HcuiMneBKgUHxL6s+D4huRE1wIEHM77XV6lnP2ccVUttzD+DvN8fIOCIrvmfLxovggwA7aLrWifLjNkqIeYIxnAXIOEUHxuUhJeBFAGyKuKR9jxVeRA1wIECtZ7VdkkSODWev/2bnxUj3zNARpAcmRjtb+gyXnCqsXngSYK76fKUm4NrHvTLn1RE5wIwAPCSXtj8v/awPHiBD7rJRblad6sbdV0I3iC5Qowk7wtT5zcoQrAeK7QEueBbZXDuxdlxCxjiyJtr+kB3/h7bSEx4rYjJpl4+jAvRkHuaRmIq2i/zq2L+gwa9LnA1PcCSDJM6ndUndduKDuYLeR4LurBwsud8IxUCLCgvojz3AZfMFtKkICxib7AJmYK0qnoibwt16DL7hPxsmkyXZFjRCyfu8K5jb3L4G/ipO6a87mbGhcvYhtCziB3qax1ziceyJioM8u2BqoBxgDAYyBAMZAAGMggDEnXQUdqE554+M+91Ph1MvQgpwdjlWQDd+STgSGIGMggDEQwBgPqYgl2Z1SKMj4cz89CPBsVSbkVZlcTAXAEGQMBDAGAhgDAYyBAMZAAGMggDEQwBgIYAwEMAYCGAMBjIEAxuTIho5jVvFdbXv2z03fv2dMPUn9Ms8p+a/pWnOTkl7HEGQMBDAGAhiT4wudwVtOerALAAAAAACAI/gHIKqfAS2FHwIAAAAASUVORK5CYII=)}
+  .type-label{font-family:'Manrope',sans-serif;font-weight:600;font-size:10.5px;color:var(--ink-soft);text-align:center;line-height:1.25}
+  @media (max-width:820px){.type-grid{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:480px){.type-grid{grid-template-columns:repeat(2,1fr)}}
+  .spotlight-right{display:flex;flex-direction:column;gap:16px}
+
+  .right-top{display:flex;flex-direction:column;gap:12px;background:var(--glass);border:1px solid var(--glass-line);
+    border-radius:16px;padding:16px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .right-actions{display:flex;align-items:stretch;gap:10px}
+  .right-actions>.btn{flex:1;justify-content:center;min-width:0}
+  .refresh-btn{width:100%;justify-content:center;padding:13px 18px;font-size:15px;font-weight:700;border-radius:13px}
+  .refresh-btn .ic{font-size:16px}
+  .sync-status{font-size:11.5px;color:var(--muted);text-align:center;min-height:14px}
+
+  .checklist{display:flex;flex-direction:column;gap:8px;max-height:560px;overflow-y:auto;padding-right:2px}
+  .check-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid var(--glass-line);
+    background:var(--btn-bg);border-radius:12px;padding:10px 14px;cursor:pointer;transition:.15s;font-family:inherit}
+  .check-row:hover{background:var(--btn-hover);transform:translateX(2px)}
+  .check-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .check-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+  .check-name{font-family:'Manrope',sans-serif;font-weight:600;font-size:14.5px;color:var(--ink);flex:1;min-width:0;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .check-code{font-size:10px;font-weight:700;color:var(--code-ink);background:var(--code-bg);padding:2px 6px;border-radius:6px;flex-shrink:0}
+  .check-flag{color:var(--flag-num);flex-shrink:0;font-size:13px}
+
+  @media (max-width:820px){.spotlight-layout{grid-template-columns:1fr}}
+
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;margin:2px 0 10px}
+  .status.recent{background:linear-gradient(transparent 30%, var(--highlight) 30% 92%, transparent 92%);padding:1px 7px;color:var(--recent-ink);transform:rotate(-1deg)}
+  .status.stable{color:var(--muted)}
+  .status.stable .dot,.status.empty .dot{width:6px;height:6px;border-radius:50%;background:var(--faint)}
+  .status.empty{color:var(--faint);font-style:italic;font-weight:600}
+
+  .guideline{flex:1;color:var(--ink);font-size:13.5px;font-weight:500;line-height:1.6;margin:0 0 12px}
+  .gl-li{display:flex;gap:8px;align-items:flex-start;margin:3px 0}
+  .gl-bullet{flex-shrink:0;color:var(--muted)}
+  .gl-txt{flex:1;min-width:0}
+  .gl-p{margin:7px 0}
+  .gl-p:first-child{margin-top:0}
+  .gl-gap{height:9px}
+  .guideline.clamp{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+  .expand{background:none;border:0;color:var(--link-ink);font-weight:700;font-size:12.5px;padding:0;margin:-6px 0 12px}
+  .empty-note{flex:1;color:var(--faint);font-style:italic;font-size:13.5px;margin:0 0 12px}
+  .source-line{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:12px}
+  .source-line b{color:var(--ink-soft);font-weight:700}
+
+  .note-foot{display:flex;align-items:center;gap:8px;border-top:1px dashed var(--dash);padding-top:12px;margin-top:auto}
+
+  .kebab{position:relative}
+  .menu{position:absolute;right:0;top:32px;background:var(--menu-bg);border:1px solid var(--input-border);border-radius:12px;box-shadow:var(--note-shadow);padding:5px;z-index:20;min-width:150px;display:none}
+  .menu.open{display:block}
+  .menu button{display:flex;width:100%;gap:8px;border:0;background:none;text-align:left;padding:8px 10px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+  .menu button:hover{background:var(--menu-hover)}
+  .menu button.del{color:var(--danger)}.menu button.del:hover{background:rgba(201,124,134,.14)}
+
+  .empty-state{text-align:center;padding:70px 20px;color:var(--ink-soft)}
+  .empty-state h2{font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:var(--title-ink);margin:0 0 4px}
+
+  .overlay{position:fixed;inset:0;background:var(--overlay);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;padding:44px 16px;z-index:100;overflow:auto}
+  .overlay.open{display:flex}
+  .modal{background:var(--modal-bg);border-radius:20px;width:100%;max-width:520px;box-shadow:0 24px 70px rgba(0,0,0,.35);animation:pop .17s ease}
+  @keyframes pop{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--modal-line)}
+  .modal-head h3{font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;margin:0;color:var(--title-ink)}
+  .modal-body{padding:18px 22px;max-height:70vh;overflow:auto}
+  .modal-foot{display:flex;gap:10px;justify-content:flex-end;padding:14px 22px;border-top:1px solid var(--modal-line)}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:11.5px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+  .field .hint{font-size:12px;color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0;margin-top:5px}
+  input[type=text],input[type=date],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:11px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--input-bg)}
+  textarea{resize:vertical;min-height:120px;line-height:1.6}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .check{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+  .check input{width:17px;height:17px;accent-color:var(--accent)}
+  .swatches{display:flex;gap:9px;flex-wrap:wrap;margin-top:2px}
+  .swatch{width:30px;height:30px;border-radius:9px;border:2px solid var(--swatch-border);cursor:pointer;transition:.12s}
+  .swatch:hover{transform:scale(1.08)}
+  .swatch.sel{border-color:var(--swatch-sel);box-shadow:0 0 0 3px var(--modal-bg) inset}
+
+  .version{border-left:2px solid var(--version-line);padding:0 0 18px 16px;position:relative}
+  .version:last-child{padding-bottom:0}
+  .version::before{content:"";position:absolute;left:-6px;top:3px;width:10px;height:10px;border-radius:50%;background:var(--version-dot);border:2px solid var(--modal-bg)}
+  .version.current::before{background:var(--version-cur)}
+  .version .v-date{font-weight:700;font-size:13px;color:var(--ink)}
+  .version .v-badge{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--version-cur-ink);margin-left:8px}
+  .version .v-src{font-size:12px;color:var(--muted);font-weight:600;margin:2px 0 6px}
+  .version .v-text{font-size:13px;color:var(--ink-soft);line-height:1.6;font-weight:500}
+
+  .loading{text-align:center;padding:80px 20px;color:var(--muted);font-weight:600}
+  .x-btn{border:0;background:none;color:var(--muted);font-size:22px;line-height:1;padding:4px 8px;border-radius:8px}
+  .x-btn:hover{background:var(--menu-hover);color:var(--ink)}
+
+  .note a,.version a,.rich-input a{color:var(--link-ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px;font-weight:700;word-break:break-word}
+  .note a:hover,.version a:hover,.rich-input a:hover{color:var(--ink)}
+  .note a:focus-visible,.version a:focus-visible,.rich-input a:focus-visible{outline:2px solid var(--link-ink);outline-offset:2px;border-radius:2px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  a.link-chip{display:inline-flex;align-items:center;gap:5px;max-width:200px;padding:2px 10px 2px 8px;
+    background:var(--code-bg);border-radius:999px;font-weight:700;font-size:12.5px;color:var(--link-ink);
+    text-decoration:none;vertical-align:middle}
+  a.link-chip .chip-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  a.link-chip:hover{background:var(--menu-hover);color:var(--ink)}
+  a.link-chip:focus-visible{outline:2px solid var(--link-ink);outline-offset:2px;border-radius:999px}
+
+  .rich-input{width:100%;min-height:120px;max-height:340px;overflow:auto;padding:10px 12px;border:1px solid var(--input-border);
+    border-radius:11px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--input-bg);
+    line-height:1.6;white-space:pre-wrap;word-break:break-word}
+  .rich-input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  .rich-input:empty:before{content:attr(data-placeholder);color:var(--faint);pointer-events:none}
+
+  @media (max-width:560px){.row2{grid-template-columns:1fr}.title-block h1{font-size:34px}}
+
+  /* Neutral palette: notes carry bolder colours, so force high-contrast dark text
+     on the note surface regardless of which type colour it is. */
+  [data-theme="neutral"] .note .guideline,
+  [data-theme="neutral"] .note .gl-txt{color:#241F1A}
+  [data-theme="neutral"] .note .client-name{color:#1C1813}
+  [data-theme="neutral"] .note .gl-bullet,
+  [data-theme="neutral"] .note .source-line,
+  [data-theme="neutral"] .note .status.stable{color:#443E36}
+  [data-theme="neutral"] .note .source-line b{color:#241F1A}
+  [data-theme="neutral"] .note .status.stable .dot{background:#6E675C}
+  [data-theme="neutral"] .note .status.empty{color:#5A5348}
+  [data-theme="neutral"] .note .code-tag{color:#241F1A;background:rgba(255,255,255,.5)}
+  [data-theme="neutral"] .note .pilot{color:#3A3226;border-color:rgba(0,0,0,.3)}
+  [data-theme="neutral"] .note .expand{color:#274063}
+  [data-theme="neutral"] .note .note-foot{border-top-color:rgba(0,0,0,.2)}
+  [data-theme="neutral"] .note a.link-chip{color:#274063;background:rgba(255,255,255,.55)}
+  [data-theme="neutral"] .note .status.recent{color:#5A4410}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title-block">
+      <h1>Guideline Update Tracker</h1>
+      <p>The latest editing guideline update for each client in one place</p>
+    </div>
+    <button class="btn icon-btn" id="themeToggle" aria-label="Toggle night mode" title="Toggle night mode">☾</button>
+  </header>
+
+  <div class="board">
+    <div class="toolbar">
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+        <input type="text" id="searchInput" placeholder="Search client, code, or note text…">
+      </div>
+      <div class="seg" id="filterSeg">
+        <button data-f="all" class="on">All</button>
+        <button data-f="recent">Updated (7d)</button>
+      </div>
+      <div class="daterange" id="dateRange">
+        <span class="dr-label">Date</span>
+        <input type="date" id="dateFrom" aria-label="Updates from date">
+        <span class="dr-arrow">→</span>
+        <input type="date" id="dateTo" aria-label="Updates to date">
+        <button class="dr-clear" id="dateClear" title="Clear date filter" aria-label="Clear date filter" style="display:none">×</button>
+      </div>
+      <div class="seg" id="sortSeg">
+        <button data-s="recent" class="on">Newest</button>
+        <button data-s="name">A–Z</button>
+      </div>
+    </div>
+
+    <div class="spotlight-layout" id="content">
+      <div class="spotlight-left">
+        <div id="spotlightLeft"><div class="loading">Loading your notes…</div></div>
+        <div class="type-grid" id="typeGrid">
+          <button class="type-btn" data-type="editing_jobs"><span class="type-icon"></span><span class="type-label">Editing Jobs</span></button>
+          <button class="type-btn" data-type="food"><span class="type-icon"></span><span class="type-label">Food</span></button>
+          <button class="type-btn" data-type="real_estate"><span class="type-icon"></span><span class="type-label">Real Estate</span></button>
+          <button class="type-btn" data-type="automotive"><span class="type-icon"></span><span class="type-label">Automotive</span></button>
+          <button class="type-btn" data-type="team_office"><span class="type-icon"></span><span class="type-label">Team and Office</span></button>
+          <button class="type-btn" data-type="product"><span class="type-icon"></span><span class="type-label">Product</span></button>
+          <button class="type-btn" data-type="event"><span class="type-icon"></span><span class="type-label">Event</span></button>
+          <button class="type-btn" data-type="portrait"><span class="type-icon"></span><span class="type-label">Portrait</span></button>
+        </div>
+      </div>
+      <div class="spotlight-right">
+        <div class="right-top">
+          <div class="pills" id="pills"></div>
+          <div class="right-actions">
+            <button class="btn sm" id="recentUpdatesBtn">🕐 Recent (3d)</button>
+            <button class="btn sm" id="resetSpotlightBtn">⟲ Reset to Latest</button>
+          </div>
+          <button class="btn refresh-btn" id="syncRefreshBtn"><span class="ic">↻</span> New Update</button>
+          <span id="syncStatus" class="sync-status"></span>
+        </div>
+        <div class="checklist" id="checklist"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="clientOverlay"><div class="modal">
+  <div class="modal-head"><h3 id="clientTitle">Add a client</h3><button class="x-btn" data-close>×</button></div>
+  <div class="modal-body">
+    <div class="row2">
+      <div class="field"><label>Client name</label><input type="text" id="c_name" placeholder="e.g. Bring a Trailer"></div>
+      <div class="field"><label>Code / label</label><input type="text" id="c_code" placeholder="e.g. AU001"></div>
+    </div>
+    <div class="field"><label>Note colour</label><div class="hint" style="margin-top:0">Colour is set automatically to match the client's type (Food, Automotive, etc.).</div></div>
+    <label class="check"><input type="checkbox" id="c_pilot"> Mark as pilot (e.g. editorial edits allowed)</label>
+  </div>
+  <div class="modal-foot">
+    <button class="btn danger" id="c_delete" style="margin-right:auto;display:none">Delete client</button>
+    <button class="btn" data-close>Cancel</button><button class="btn primary" id="c_save">Save client</button>
+  </div>
+</div></div>
+
+<div class="overlay" id="historyOverlay"><div class="modal">
+  <div class="modal-head"><h3 id="historyTitle">History</h3><button class="x-btn" data-close>×</button></div>
+  <div class="modal-body" id="historyBody"></div>
+  <div class="modal-foot"><button class="btn" data-close>Close</button></div>
+</div></div>
+
+<div class="overlay" id="recentOverlay"><div class="modal" style="max-width:640px">
+  <div class="modal-head"><h3 id="recentTitle">Recent updates</h3><button class="x-btn" data-close>×</button></div>
+  <div class="modal-body" id="recentBody"></div>
+  <div class="modal-foot"><button class="btn" data-close>Close</button></div>
+</div></div>
+
+<div class="overlay" id="mergeOverlay"><div class="modal">
+  <div class="modal-head"><h3 id="mergeTitle">Merge duplicate</h3><button class="x-btn" data-close>×</button></div>
+  <div class="modal-body">
+    <div class="field">
+      <label>This client stays</label>
+      <div id="merge_keep_name" style="font-weight:700;font-size:14px;color:var(--ink)"></div>
+    </div>
+    <div class="field">
+      <label>Merge in and remove</label>
+      <select id="merge_source"></select>
+      <div class="hint">Both clients' updates are combined into one history, and the most recent update between them becomes current. Nothing is lost.</div>
+    </div>
+  </div>
+  <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="merge_confirm">Merge</button></div>
+</div></div>
+
+<script type="application/json" id="sheetImportData">[{"name": "Landing", "code": "RE008", "pilot": false, "date": "2026-04-15", "text": "We've recently changed our editing guide for Landing (RE008). Please review the document and acknowledge on this thread.\n\nChanges made:\nShotlist and Sequencing - Landing now follows a sequencing per unit captured to ensure that the team does not miss any required shots. Please orient yourselves with the optional vs. required shots, as well as the image count for each.\nNon-Compliance Reporting - Please read through the new Pass/Hold process for this client.\nFrequently Asked Questions - Addressed new issues reported by editors.\n\nThese have been updated under the Real Estate folder in this channel, as well as Snappr Admin. For any questions, please reach out to a Snappr Editing Lead/POC. Thank you.\n\nEFFECTIVE ON ALL SUB 1s FROM THE TIME OF ANNOUNCEMENT", "source": "Editing Guide Update sheet", "submitter": "Angelica De Jesus"}, {"name": "Cars and Bids", "code": "AU002", "pilot": false, "date": "2026-07-09", "text": "Hi @here Update on https://docs.google.com/presentation/d/14CMglNxtnAI67PaWdog6PtqprMcCpO5Z_YNUkpnLbUI/edit?usp=sharing (Cars & Bids (AU002)) Editing Guide\n\nChange\n- Shotlist & Sequencing: Visual sequencing provided\n\nThis has already been uploaded on admin\n\nFor any questions pls reach out to @Ana C. or @editing-qa-team", "source": "Editing Guide Update sheet", "submitter": "Nica Cruz"}, {"name": "Coca-Cola Florida", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nCoca-cola Florida\n- 15-30 degree angle shot + straight-on/overhead if appropriate\n- updated BG and bottle list, check editing guide\n- still 2 versions of the templates\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "James Hardie", "code": "", "pilot": false, "date": "2026-05-01", "text": "James Hardie recently acquired Versatex. They can now book either for James Hardie or Versatex\n\nExterior (Landscape):\n- STRAIGHT-ON: 5 wide shots minimum\n  - 3x Straight-on of front of home\n  - 2x Straight-on of back of house (if product is at the back of the home)\n- 3/4 ANGLE: 4 wide shots minimum\n  - 2x left and right-sided 3/4 angle of front of home (If the product is at the back of the home)\n  - 2x left and right-sided angle of back of home\n\nDetails:\n- Landscape and portrait\n- 5 wide minimum\n\nOutdoor/Exterior living spaces:\n- Landscape and portrait\n- 5 wide minimum\n\nThis hasn't yet been included in the latest editing guide. Please include this in the next editing guide update", "source": "Editing Guide Update sheet", "submitter": "Angelica De Jesus"}, {"name": "Instacart", "code": "", "pilot": false, "date": "2026-06-19", "text": "All Instacart bookings will require BG removal for ALL IMAGES (Hero, Nutritional, Packaging, and UPC)\n\nFAQs:\nWhat if images have hands on the product and are cropped/shot tight?\n- Tightly cropped and zoomed in images are fine, remove the BG where we can.\n- Remove the hands from the product as much as possible.\n\nWhat if we remove the \"hands\" on the product but the product become compromised?\n- If removing the hands would compromise the product or is too difficult to edit, please flag it to Schoons.", "source": "Editing Guide Update sheet", "submitter": "Timhe Dacanay"}, {"name": "ION Hospitality", "code": "PILOT", "pilot": true, "date": "2026-06-23", "text": "Editing Guide for https://docs.google.com/presentation/d/1bAnfjF0KJXEfcHd-RmqHXXggDLge-I9XttvVqW-lRsA/edit?usp=sharing (ION Hospitality (Food)) has now been uploaded on Admin. Please be oriented that this client is still currently in Pilot status.\n\nKey Notes:\n- ION has 2 Editing Styles\n  - Casual (Admin Queue) - Standard, basic edits\n  - Fine Dining (Editing Job) - Dark, moody, editorial. See Editing Direction > Sample Edits for edit references from external sources, handpicked by the client\n- GNC Pass\n  - No grouped shots of menu items were provided\n  - No restaurant interior shots provided\n  - Only 1 angle was provided for menu items\n- GNC Hold\n  - No menu item shots provided\n  - Images were shot in landscape orientation\n\nNOTE: This guide update is for their Food shoot type. Event editing guide to follow.\n\nReach out to @Ana C. or @editing-pocs for questions. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Uber Eats", "code": "", "pilot": false, "date": "2026-06-19", "text": "Please don't hold any Uber Eats galleries if only one or both of these 2 conditions are true:\n- Image count 5+ items\n- Photographer provided an explanation for the low image count in the uploader\n\nHold for:\n- Galleries with <5 items AND photographer did not provide an explanation in the uploader for the low image count\n\nNOTE: we will still flag for GNC and chase the photographer for additional images, but those images can be added to the gallery later.\n\n@editing-qa-team need assistance to update the editing guide. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "ECG", "code": "", "pilot": false, "date": "2026-05-12", "text": "Editing Guide has been updated and uploaded on Admin. Changes made:\n- Minimum Gallery Count: >=10 images\n  - If the gallery does not meet the minimum requirement, please select near duplicates to meet the minimum count\n- Workable Tight Shots (GNC Pass): From tight shots that result in crops from the waist up, report but proceed with edits.\n\nEditing Guide https://docs.google.com/presentation/d/1e1p1SjrTCpbEulnSOr4vFEFxfKiyUK0s-uWFCGF3QDk/edit?usp=sharing (here).", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Ionna", "code": "", "pilot": true, "date": "2026-05-15", "text": "PILOT\n\nSHOT LIST - LOCATION\n1. ALL LOCATIONS\n- Rechargery Approach, wide from roadside / \"driving towards location\" perspective\n- Parking Lot wide shot, showing stall count\n- Full Ionna Signage (Road Pole, Street-Level Signage or Wall-Mounted)\n- Cover Photo (wide shot of facility)\n2. IONNA GENUINE CHARGE DISPENSERS\n- Full Ionna Genuine Charge Dispenser unit\n- CCS & NACS charging ports, close-ups\n- Detail shot of screen interface\n3. ADDITIONAL (REQUIRED FOR RECHARGERY AND RECHARGERY BEACON FACILITIES)\n- Lounge Interior - Seating / Table / Work Area\n- Restroom Signage\n- Vending Machines\n- Other Unique Amenities\n\nSHOT LIST - VEHICLES\n- Wide shots (overview of the entire Rechargery with a vehicle)\n- Dispenser (vehicle/s being charged)\n- Details (vehicle charging, customer interaction, close up shots, and creative perspective)\n\nFile name: Location(shoot name)_Date(YYYMMDD)-sequence(3-digit)\n- Frontage Rd Rechargery_20260515-001\n\nFile size, dimension, format:\n- default size / hi-res\n- 2 x 3 aspect ratio\n- 300dpi\n- JPG\n- Landscape (priority) and portrait orientation\n- no min/max (cull dupes, blurred photos)\n\nEdits:\n- basic edit - no screen swap/clean ups\n- no cropping\n\nShoot type: Real Estate - similar to shell\n\nThis partner is still pending for editing guide creation.", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "JOLT", "code": "", "pilot": false, "date": "2026-05-22", "text": "Editing Guide has been updated and uploaded on Admin. Changes made:\n- Distractions should be removed on HERO shots\n- Blurring of License plates\n\nNote: This should be done to AD AND NON-AD REPLACEMENT\n\nEditing Guide https://docs.google.com/presentation/d/14bytH5sGR7rEAmjot145gsIA9rB5weqqBZ5lac65iB0/edit (here).\n\ncc @Ana C. @editing-qa-team @editing-pocs", "source": "Editing Guide Update sheet", "submitter": "Ella Godalle"}, {"name": "ME&U", "code": "", "pilot": false, "date": "2026-05-26", "text": "Hi team. The following has been updated for the Me&U Editing Guide, particularly in filenaming & location shots:\n- Filenaming:\n  - Menu Items (Landscape & Square): 1982x1320 - DishName.jpg | Square - DishName-square\n  - Blank (Landscape & Square): 1982x1320 - RestaurantName-Background.jpg | Square - RestaurantName-Background-square\n  - Hero (Landscape & Square): 1982x1320 - RestaurantName-Hero-3-Digit-Sequence Number-1982x1320.jpg | 1920x1080 - RestaurantName-Hero-3-Digit-Sequence Number-1920x1080.jpg | Square - RestaurantName-Hero-3-Digit-Sequence Number-square\n  - Location (Portrait & Square): 1320x1982 - RestaurantName-Exterior/Interior-3-Digit-Sequence Number-1982x1320.jpg | 1080x1920 - RestaurantName-Exterior/Interior-3-Digit-Sequence Number-1920x1080.jpg | Square - RestaurantName-Exterior/Interior-3-Digit-Sequence Number-square\n- Location Shots: from 1 image to All unique provided\n\nExample - Restaurant Name: Chin's Diner\nMenu Items (2): Super Tuna Sub, Clear Soup\nHeroes Provided: 2 (regardless if Meals, Beverages, or Location type)\nLocation Shots Provided: Multiple exteriors and interiors\n\nPlease reach out to @Ana C. for any questions regarding this. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Hagerty", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nHagerty\n- 10 vertical images are OPTIONAL\n- vertical videos are OPTIONAL\n\nAll guides have been updated in admin\n\n(Previous update, June 4 2026 - Updates on Shot list:\nAdded shots: Overview of Instruments (required, full panel), Guidance of Sunroof shots (required: fully opened, fully closed, headliner if no sunroof), Driver's License (optional), Vehicle's Title/Registration (optional).\nRemoved from required shots: wheels - no need to report if we're missing some.\nFor convertible top cars: 6 out of 8 top down shots required; at least 3 top up shots required, 1 out of 3 must be a rear 3/4 shot (driver or passenger side).)", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Owner.com", "code": "FO006", "pilot": false, "date": "2026-06-05", "text": "Hi @here New updates on GNC conditions for Owner.\n\nGNC Pass\n- Menu Items: At least one angle is provided\n- Hero: No hero shots\n\n@editing-pocs GNC flagging is to have CS continue to chase PG for these shots, but we will no longer be holding bookings for delivery for missing angles and heroes. No need to notify eRep.\n\nThank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Aspen Dental", "code": "TE017", "pilot": false, "date": "2026-06-27", "text": "Please see the following update for both Aspen Dental (TE017) and Clear Choice (TE022).\n\nExport Information (Orientation):\n- Facility & Team: Landscape -> As provided\n\nFor any questions, please reach out to @Ana C. or @editing-qa-team. Thank you!\n\n(Prior update, June 7 2026 - Proceed with edits, no need to report or hold, for: Provider + Staff photos where only staff photos provided, or Providers not in Aspen Dental white coat. Staff photos don't need name labels; label as H_AD_Staff_Shoot Date [YYYYMMDD]_3-Digit Sequence. New guide: https://docs.google.com/presentation/d/17mwukhvu132p2QcuxKqKmPgnoSmRKi5Y3sU41nt8hUc/edit?usp=sharing)", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "USGBC", "code": "TE021", "pilot": false, "date": "2026-07-03", "text": "Hi @here\n\nWe've recently updated the guide for https://docs.google.com/presentation/d/1EEK0ne-qhV_VQt-NWX1IcGy8lJfTcPyptXj3lr9ppLY/edit?usp=sharing (USGBC (TE021)).\n\nChanges:\n- Shotlist\n  - Separate shotlists for standard shoots vs. exterior-only shoots\n  - Clear color coding of required shots and applied an \"as provided\" delivery requirement\n- Wording updates on Non-Compliance Reporting and Editing Direction slides\n- Sample Galleries updated to show an additional exterior-only shoot reference\n\nGuide has also been updated on the platform. For questions, please reach out to @Ana C. or @Nico Nuyda. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Clear Choice", "code": "TE022", "pilot": false, "date": "2026-07-14", "text": "Hi @here The editing guide for Clear Choice (TE022) has been updated to reflect the following change:\n- Internal ID is no longer needed for this client. Filenaming convention under Export Information has been updated to reflect this.\n\nGuide has been updated on Admin as well.\n\nFor questions, please reach out to @Ana C.. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Kompan", "code": "RE006", "pilot": false, "date": "2026-06-29", "text": "Hi team. Editing Guide for https://docs.google.com/presentation/d/1mm-WYLi6UYg2EHWN7hIJtN2nr9U09EX2M4WOzPRGGmY/edit?usp=sharing (Kompan (RE006)) has been updated.\n\nPlease take note of the following changes:\n- Shotlist: Now includes distinction for Photography and Videography packages\n  - Videography shot list is only applicable if a Videography package was availed. Please do not report a Photography booking for missing video shots.\n- Export Information - Orientation: Landscape -> As provided\n- Editing Direction - Culling: Cull out drone shots\n\nFor questions, please reach out to @Ana C. or @Nico Nuyda. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "PAYG (Consumer)", "code": "CN001/CN002", "pilot": false, "date": "2026-06-29", "text": "Hi team. New guide for Consumer bookings (CN001 and CN002).\n\nCN001: Anniversary, Baby, Boudoir, Dating (Portrait), Engagement, Event, Family, Fashion, Kids, Maternity, Newborn, Party, Portrait, Wedding\n\nCN002: Aircraft, Automotive, Commercial, Food, Graduation, Industrial, Landscape, Media, Other, Pets, Religious, Sports, Team & Office, Travel\n\nFor questions, please reach out to @Ana C. or @editing-qa-team. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Optimize Social Media", "code": "TE013", "pilot": false, "date": "2026-07-01", "text": "Optimize Social Media (TE013) has reduced their minimum image gallery count from 100 to 70.\n\nhttps://docs.google.com/presentation/d/1tUaTQxCTSRNlZHSuWbkAoMsfnTqBCbMJ28cZOt1sUNY/edit?usp=sharing (Editing Guide) has been updated on Admin as well.\n\nFor any questions, please reach out to @Ana C.. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Bring a Trailer", "code": "AU001", "pilot": false, "date": "2026-07-03", "text": "Hi @here. New non-compliance exemption added for https://docs.google.com/presentation/d/1tK3rDmP-l_oP4v-OXKvDzA6faNfWS9sqyDxzdBc04SA/edit?usp=sharing (Bring a Trailer (AU001)):\n- RAW videos pre-edited by the Photographer that feature in-between transitions\n- https://drive.google.com/file/d/1K5UUnhEyqAuyRB0HRp4yR-CYpOk8eDiI/view?usp=sharing (Sample)\n\nGuide has been updated on Admin as well. For questions, please reach out to @Ana C.. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "STO Building Group (Event)", "code": "", "pilot": false, "date": "2026-07-04", "text": "Hi @here New guide for STO Building Group (Event) created.\n\nChange: Minimum requirement for this partner's event shoot type is 50 images\n\nGuide has also been updated on Admin.\n\nFor questions, please reach out to @Ana C.. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Menusifu", "code": "FO003", "pilot": false, "date": "2026-07-08", "text": "Hi @here. New updated guide for https://docs.google.com/presentation/d/1Z48UTvbT_tm7uKmUmt_sfP7njoFunysXY0O-SPbSUdk/edit?usp=sharing (Menusifu (FO003)).\n\nChanges:\n- Shotlist: Removed miscellaneous shots\n- Shotlist Notes: Moved watermarking, cropping, angles, and advanced editing references under this section\n- Export Information\n  - Filenaming: Added underscores to separate filenaming sections better\n  - Gallery Image Count: Menu items set to >=9 unique menu items; Hero images set to 1-2 images\n- Non-Compliance Reporting: Added Hold conditions relevant to FO003\n\nFor questions, please reach out to @Ana C. or @Nico Nuyda. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "OTO Development (T&O)", "code": "TE023", "pilot": false, "date": "2026-07-15", "text": "Hi @here Editing Guide for https://docs.google.com/presentation/d/1NCCjnzRJHAVUSShlPIM36juzC6ZPIblL0lSzFbFl0UE/edit?usp=sharing (OTO Development (TE023)) has been created and uploaded on Admin.\n\nNote: This is only for the Team & Office shoots. Food, Real Estate, and Event guides to follow.\n\nFor questions, please reach out to @Ana C. or @Nico Nuyda. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Autohunter", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nAutohunter\n- allow 1 exterior vertical walkaround shot and vertical walkaround video\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Pcarmarket", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nPcarmarket\n- vertical beauty shot is OPTIONAL\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Estaga", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nEstaga\n- any angle of exterior shot is okay, straight-on shot is NOT REQUIRED\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Furnished Quarters", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nFurnished Quarters\n- any angle of exterior shot is okay, straight-on shot is NOT REQUIRED\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Coca-Cola Southwest Beverages", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nCoca-cola Southwest beverages\n- 15-30 degree angle shot + straight-on/overhead if appropriate\n- updated BG and bottle list, check editing guide\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Swire Coca-Cola", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nSwire Coca-cola\n- 15-30 degree angle shot + straight-on/overhead if appropriate\n- updated BG and bottle list, check editing guide\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Hungryhungry", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nHungryhungry\n- 1 shot / dish required but include more if captured\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "GetYourGuide", "code": "GYG", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nGetyourguide\n- include verticals, report if 50% of gallery is vertical\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Reyes Coca-Cola", "code": "", "pilot": false, "date": "2026-06-17", "text": "(From a combined partner update, June 17 2026)\nReyes Coca-cola guide now available!\n\nAll guides have been updated in admin", "source": "Editing Guide Update sheet", "submitter": "Czarina De Jesus"}, {"name": "Carvertise", "code": "AU007", "pilot": false, "date": "2026-07-17", "text": "Hi @here Editing Guide for https://docs.google.com/presentation/d/1dk7KCBVwiWzv6yXnPp-xNZGs_dfq7RDDMY3laLAUJoE/edit?usp=sharing (Carvertise (AU007)) has been created and uploaded on Admin.\n\nPlease note that the guide for photography and videography bookings are different. If videos are found in a photography booking, please cull out.\n\nFor any questions, please reach out to @Ana C. or @Nico Nuyda. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}, {"name": "Stablewood Properties", "code": "RE014", "pilot": false, "date": "2026-07-17", "text": "Hi @here Editing Guide for https://docs.google.com/presentation/d/13vy4epHojwb3F16cd5VuFTtDFGGYwq-90ppmdOWXQfU/edit?usp=sharing (Stablewood Properties (RE014)) has been created and uploaded on Admin.\n\nPlease note that the guide for photography and videography bookings are different. If videos are found in a photography booking, please cull out.\n\nFor any questions, please reach out to @Ana C. or @Nico Nuyda. Thank you!", "source": "Editing Guide Update sheet", "submitter": "Ana Cuaresma"}]</script>
+<script>
+const PASTELS=["#FDE4EA","#FCEBD6","#FEF6C7","#E4F6DE","#D7F0F5","#DEEBFC","#EAE4FB","#F4E1F3","#E8EEDD","#FADEE8"];
+const GRAYS  =["#26292F","#2C2F35","#303339","#34373D","#383B42","#2A2D34","#2E3138","#32353C","#363940","#3A3D44"];
+const TAPES  =["rgba(167,139,250,.55)","rgba(110,231,183,.55)","rgba(147,197,253,.55)","rgba(252,165,165,.55)","rgba(253,224,71,.6)","rgba(244,164,222,.55)"];
+const DARK_TAPE="rgba(255,255,255,.13)";
+const DEFAULT_CLIENTS=[
+  {name:"Bring a Trailer",code:"AU001",color:PASTELS[1],pilot:false},
+  {name:"Cars and Bids",code:"AU002",color:PASTELS[4],pilot:false},
+  {name:"DoorDash",code:"FO001",color:PASTELS[0],pilot:false},
+  {name:"Owner.com",code:"FO006",color:PASTELS[6],pilot:false},
+  {name:"GetYourGuide",code:"GYG",color:PASTELS[5],pilot:false},
+  {name:"ION Hospitality",code:"PILOT",color:PASTELS[3],pilot:true},
+];
+const KEY="guideline_tracker_v1";
+const RECENT_DAYS=7;
+const RECENT_WEEK_DAYS=7;
+const RECENT_SHORT_DAYS=3;
+let state={clients:[],theme:"neutral"};
+let ui={filter:"all",sort:"recent",search:"",expanded:{},typeFilter:null,spotlightId:null,dateFrom:"",dateTo:""};
+
+async function load(){
+  try{const r=await window.storage.get(KEY,false);state=r&&r.value?JSON.parse(r.value):null;}catch(e){state=null;}
+  if(!state||!state.clients){state={clients:DEFAULT_CLIENTS.map(c=>({id:uid(),name:c.name,code:c.code,color:c.color,pilot:c.pilot,current:null,history:[]})),theme:"neutral"};}
+  if(!state.theme)state.theme="neutral";
+  if(!state.driveSync)state.driveSync={lastSeenTimestamp:"Jul 17, 2026, 8:08:04 AM",lastChecked:null,checking:false};
+  state.clients.forEach((c,i)=>{if(!PASTELS.includes(c.color))c.color=PASTELS[i%PASTELS.length];});
+  applyTheme();await save();
+}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(state),false);}catch(e){console.error("Could not save:",e);}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function hashInt(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h}
+function normalizeName(s){return (s||"").toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'')}
+// Partner name aliases: normalized alias -> canonical display name. Both names collapse into one client entry.
+const PARTNER_ALIASES={"doordashrestaurant":"DoorDash"};
+function canonicalName(name){return PARTNER_ALIASES[normalizeName(name)]||name;}
+// One-time merge of any existing entries that share a canonical name (combines current+history, keeps newest as current).
+function dedupeAliases(){
+  const groups={};
+  state.clients.forEach(c=>{const k=normalizeName(canonicalName(c.name));(groups[k]=groups[k]||[]).push(c);});
+  let changed=false;const keep=[];
+  Object.values(groups).forEach(list=>{
+    if(list.length===1){keep.push(list[0]);return;}
+    changed=true;
+    let notes=[];list.forEach(c=>{if(c.current)notes.push(c.current);if(c.history)notes=notes.concat(c.history);});
+    notes.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+    const seen=new Set(),uniq=[];
+    notes.forEach(n=>{const key=(n.date||'')+'|'+(n.text||'');if(!seen.has(key)){seen.add(key);uniq.push(n);}});
+    keep.push({id:list[0].id,name:canonicalName(list[0].name),code:(list.find(c=>c.code)||{}).code||"",color:list[0].color,pilot:list.some(c=>c.pilot),current:uniq[0]||null,history:uniq.slice(1)});
+  });
+  if(changed)state.clients=keep;
+  return changed;
+}
+
+const THEME_ORDER=['light','dark','neutral'];
+const THEME_META={light:{icon:'☀',name:'Pastel'},dark:{icon:'☾',name:'Night'},neutral:{icon:'◑',name:'Neutral'}};
+function applyTheme(){
+  const th=THEME_ORDER.includes(state.theme)?state.theme:'light';
+  document.documentElement.setAttribute('data-theme',th);
+  const t=document.getElementById('themeToggle');
+  if(t){
+    const next=THEME_ORDER[(THEME_ORDER.indexOf(th)+1)%THEME_ORDER.length];
+    t.textContent=THEME_META[th].icon;
+    t.title=`Theme: ${THEME_META[th].name} — click for ${THEME_META[next].name}`;
+    t.setAttribute('aria-label',t.title);
+  }
+}
+
+function today(){return new Date().toISOString().slice(0,10)}
+function daysAgo(d){if(!d)return Infinity;return Math.floor((new Date(today())-new Date(d))/86400000)}
+function relTime(d){const n=daysAgo(d);if(n<=0)return"today";if(n===1)return"yesterday";if(n<7)return n+"d ago";if(n<14)return"1w ago";if(n<60)return Math.floor(n/7)+"w ago";return Math.floor(n/30)+"mo ago"}
+function fmtDate(d){if(!d)return"—";return new Date(d+"T00:00").toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}
+function esc(s){return(s||"").replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function escAttr(s){return(s||"").replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function shortLabel(label){
+  const isRawUrl=/^https?:\/\//i.test(label)||/^www\./i.test(label);
+  let display=label;
+  if(isRawUrl){
+    try{const u=new URL(/^www\./i.test(label)?('https://'+label):label);display=u.hostname.replace(/^www\./,'')+(u.pathname!=='/'?u.pathname:'');}
+    catch(e){}
+  }
+  if(display.length>26) display=display.slice(0,24)+'…';
+  return display;
+}
+function linkTag(label,href){
+  return `<a href="${escAttr(href)}" target="_blank" rel="noopener noreferrer" class="link-chip" title="${escAttr(label)}"><span aria-hidden="true">🔗</span><span class="chip-label">${esc(shortLabel(label))}</span><span class="sr-only"> — opens ${esc(label)} in a new tab</span></a>`;
+}
+function linkify(str){
+  if(!str) return "";
+  const urlRe=/(https?:\/\/[^\s<]+|www\.[^\s<]+)/gi;
+  let result="",lastIndex=0,m;
+  while((m=urlRe.exec(str))){
+    result+=esc(str.slice(lastIndex,m.index));
+    let url=m[0],trail="";
+    while(/[.,;:!?)\]'"]$/.test(url)){trail=url.slice(-1)+trail;url=url.slice(0,-1);}
+    const href=/^www\./i.test(url)?"https://"+url:url;
+    let endIdx=m.index+m[0].length,label=null;
+    if(str[endIdx]===' '&&str[endIdx+1]==='('){
+      let depth=0,i=endIdx+1;
+      for(;i<str.length;i++){
+        if(str[i]==='(')depth++;
+        else if(str[i]===')'){depth--;if(depth===0){i++;break;}}
+      }
+      if(depth===0){label=str.slice(endIdx+2,i-1).trim();endIdx=i;}
+    }
+    result+=linkTag(label||url,href)+esc(trail);
+    lastIndex=endIdx;
+    urlRe.lastIndex=lastIndex;
+  }
+  result+=esc(str.slice(lastIndex));
+  return result;
+}
+// Turn plain-text guideline copy into readable HTML: dash lines become real
+// bullets with hanging indent + nesting; blank lines become spacing; links stay clickable.
+function formatGuideline(text){
+  if(!text) return "";
+  const lines=String(text).replace(/\r/g,'').split('\n');
+  let out="";
+  for(const raw of lines){
+    const line=raw.replace(/\s+$/,'');
+    if(line.trim()===''){out+='<div class="gl-gap"></div>';continue;}
+    const m=line.match(/^(\s*)([-•*–·])\s+(.*)$/);
+    if(m){
+      const indent=m[1].replace(/\t/g,'  ').length;
+      const level=Math.min(Math.floor(indent/2),4);
+      out+=`<div class="gl-li" style="margin-left:${level*16}px"><span class="gl-bullet">•</span><span class="gl-txt">${linkify(m[3])}</span></div>`;
+    }else{
+      out+=`<div class="gl-p">${linkify(line)}</div>`;
+    }
+  }
+  return out;
+}
+const CODE_GUIDE_LINKS={"EJ001":"https://docs.google.com/presentation/d/1L23_aVeOEl9rjTsyzxvfXpMvgK1X92u9M1znc6v9zZI/edit?usp=sharing","FO001":"https://docs.google.com/presentation/d/1_60D6Zb1ibKD9YxdHJ564a2HSNs0GZ3r1edzP7BpLvY/edit?usp=sharing","FO002":"https://docs.google.com/presentation/d/1ghjiGvihCRUi1EzccRuULjcL7B81uGQYyOr-o8yzVH8/edit?usp=sharing","FO003":"https://docs.google.com/presentation/d/1Z48UTvbT_tm7uKmUmt_sfP7njoFunysXY0O-SPbSUdk/edit?slide=id.g3c5d242a172_0_56","FO004":"https://docs.google.com/presentation/u/0/d/1i5IJuweKVHwCGHzwVMx91me1HGWKj4gQ7GCe2r_WpwQ/edit","FO005":"https://docs.google.com/presentation/d/11RZKLNlQQhRtorpv5CvLxkhGuaWkLihX6WVzrP2ZdPo/edit?usp=sharing","FO006":"https://docs.google.com/presentation/d/1AakcIrBZPiTOeteXymQsmHg-v7R29WyXMxONLkbXb_c/edit?usp=sharing","FO009":"https://docs.google.com/presentation/d/1Ao9SqPHFeZN2RgVdQjRNTyq59Wltt8EE5IyUo4Q0084/edit?usp=sharing","FO010":"https://docs.google.com/presentation/d/1R6sWfmxu00DChZF8p61AUsd6i06ybp7HXzOPBuF_QGk/edit?slide=id.g326be3ea7ac_0_395","FO011":"https://docs.google.com/presentation/d/13W8e4dmN0vMmLZP0KnuPytnZyZhlLrK194DLenhWLuQ/edit?slide=id.g2cd5a7c5be8_1_218","FO012":"https://docs.google.com/presentation/d/18Srr0i14pz8UO2FQgaZHcKdfgunzoPxJq78yf7KBhAU/edit?slide=id.p","FO015":"https://docs.google.com/presentation/d/1nvcjvR_JUC6j4QwG2XmBOWKZeEGpCVmO8yXE4pIKDe0/edit?usp=sharing","FO017 (Capture)":"https://docs.google.com/presentation/d/1QbwuJBfem9v6migMRag4buhsHXjQMPR-VlS57GjYFHc/edit?usp=sharing","FO017 (Hybrid)":"https://docs.google.com/presentation/d/1gc9DA5gjm_n1nAqcg2ZLWXgxO3-eA_e0J9-1PIq4GNc/edit?slide=id.g3c5d242a172_0_56","FO018":"https://docs.google.com/presentation/d/1iFPGDP07e95ROL3raqLIth1QDgZkUOkNM-iv0sQkoWs/edit","FO019":"https://docs.google.com/presentation/d/1bAnfjF0KJXEfcHd-RmqHXXggDLge-I9XttvVqW-lRsA/edit?usp=sharing","FO008":"https://docs.google.com/presentation/d/1mPrU9obRtWKX8tyc1yQss-rF9jk0lXghB_QRA1BEE3A/edit?slide=id.g3acd7244b42_0_0","FO016":"https://docs.google.com/presentation/d/1FWyzYOI-w3lWLthM71wadtD9RGkHIWWHlK_yYOdWRWs/edit?usp=sharing","RE001":"https://docs.google.com/presentation/d/1zhXKaBPxN4jVzjcqHGsFFaT2uu_eQZjjiaRdrQB7hBw/edit?slide=id.p","RE002":"https://docs.google.com/presentation/d/1AAVtPkkP_4vHW-NUVARNoAM8-o5yka4SDLgaWlFFyKI/edit?usp=sharing","RE003":"https://docs.google.com/presentation/d/1zeoHXFiJdfqHK1dGu7xh7A5iyApuT1I03cQznatt3BQ/edit?usp=sharing","RE004":"https://docs.google.com/presentation/d/1jUwkvYgnWuwOMmITBu2fPvIriJnafPUAKpUrT6QOy0I/edit?usp=sharing","RE005":"https://docs.google.com/presentation/d/1eOfRihheyXHqW7eV-REN9cCmhLmJaaqDODK9zXzNWbw/edit?usp=drive_link","RE006":"https://docs.google.com/presentation/d/1mm-WYLi6UYg2EHWN7hIJtN2nr9U09EX2M4WOzPRGGmY/edit?usp=sharing","RE007":"https://docs.google.com/presentation/d/1mgVFFnA3GmHepxtfVmkS8vmm2uzB3bb-WORnvuSOpHU/edit?usp=sharing","RE008":"https://docs.google.com/presentation/d/1x-sW0ShDbi2keyAvCXqWJ24IMXA_W4bISlHqAZypv4E/edit?slide=id.g3c5d242a172_0_56","RE009":"https://docs.google.com/presentation/d/1upo-pXIiMRKhQ59CUEfkVtfZs6u8SlvS0KHGgaHHtnU/edit?usp=sharing","RE010":"https://docs.google.com/presentation/d/1ha0tc68TO1uQxVW7HX3gparxdCMVMYzU1GKu6_AszNA/edit?usp=sharing","RE011":"https://docs.google.com/presentation/d/1Ss5DCAEwQ27UenXA-k8Yruze2tEgDtxROpOZ7qS-DWE/edit?usp=sharing","RE012":"https://docs.google.com/presentation/d/1r3T0orArIELEVy9HWUpPRC30WGV2xuSiO7iD-wgsuPE/edit?usp=sharing","RE013":"https://docs.google.com/presentation/d/1DsTH_3CSKhdm469JJUAc9Fid_EU8uLhRhzMZUuWzbZU/edit?usp=sharing","RE014":"https://docs.google.com/presentation/d/13vy4epHojwb3F16cd5VuFTtDFGGYwq-90ppmdOWXQfU/edit?usp=sharing","RE015":"https://docs.google.com/presentation/d/1nfwe6Z6kwxXtBwMrxKo6Y1XZv0tyQ4lVijE47rFjRZs/edit?slide=id.p","RE016":"https://docs.google.com/presentation/d/1Lfvz5XI2_UakhmSirjJOvjKGzWU2OV7ZfRDJUE33zy4/edit?usp=sharing","RE017":"https://docs.google.com/presentation/d/1yln4QbPia2NSKnOWC6_nZzOTj_lpMhcKRv6o40OVzW8/edit?usp=sharing","RE018":"https://docs.google.com/presentation/d/16lVtsvZXMqWO1V3y_sWlsu9XiLwmGXAzgoZRckIoZzQ/edit?usp=sharing","RE019":"https://docs.google.com/presentation/d/14bytH5sGR7rEAmjot145gsIA9rB5weqqBZ5lac65iB0/edit?usp=sharing","RE020":"https://docs.google.com/presentation/d/1eQjyGY-3G9LmJFBmvWb_4MSmh4ck8tALcnWrXRrViXY/edit?usp=sharing","RE021":"https://docs.google.com/presentation/d/1EEK0ne-qhV_VQt-NWX1IcGy8lJfTcPyptXj3lr9ppLY/edit?usp=sharing","AU001":"https://docs.google.com/presentation/d/1tK3rDmP-l_oP4v-OXKvDzA6faNfWS9sqyDxzdBc04SA/edit?slide=id.g3c5d242a172_0_56","AU002":"https://docs.google.com/presentation/d/14CMglNxtnAI67PaWdog6PtqprMcCpO5Z_YNUkpnLbUI/edit?usp=sharing","AU003":"https://docs.google.com/presentation/d/1WWrVStfxWMGEgyTiOY1HJbnxoNknVkvZwRkHPdwjjIw/edit?usp=sharing","AU004":"https://docs.google.com/presentation/d/1nhXruqIt3KGOUKfHIvkZKJ5wLyvCvZ83GR2czzdx1IY/edit?usp=sharing","AU007":"https://docs.google.com/presentation/d/1dk7KCBVwiWzv6yXnPp-xNZGs_dfq7RDDMY3laLAUJoE/edit?usp=sharing","AU013":"https://docs.google.com/presentation/d/1afWdIn3x5p8BJeF3ZQEbZRYik63mdUd78p0kKZkkGTI/edit?slide=id.g380febd6c64_0_71","AU014":"https://docs.google.com/presentation/d/1LWtk7Bo97hyqZrg_DIWt7gkYgbT58WYfCwzLJkHB8X0/edit?slide=id.g2cd5a7c5be8_1_218","AU015":"https://docs.google.com/presentation/d/1zLuAmRDbSQP7F9mfY3dXia4IfeelNhYFLlaiIzntPXc/edit?slide=id.p","AU016":"https://docs.google.com/presentation/d/1cbuSY0xoJrLER9F-cE2tHFOpOgdZFYUPgCRS1obvHHg/edit?slide=id.g2cd5a7c5be8_1_218","TE002":"https://docs.google.com/presentation/d/1_NTn8H1TmKamiq0vpQUXsZSr0GV5mvIs9sFnRxubU5Y/edit?slide=id.g2cd5a7c5be8_1_218","TE003":"https://docs.google.com/presentation/d/1Z87lYt22cocssNGiRLuNMtBuwT7aMDWlGLtOSOurQs8/edit?slide=id.g2cd5a7c5be8_1_218","TE013":"https://docs.google.com/presentation/d/1tUaTQxCTSRNlZHSuWbkAoMsfnTqBCbMJ28cZOt1sUNY/edit?usp=sharing","TE016":"https://docs.google.com/presentation/d/1INfNfD5EwGmal8TkbpYVmtTLySKAa8AbBm2BJRfv4Qs/edit?usp=sharing","TE017":"https://docs.google.com/presentation/d/17mwukhvu132p2QcuxKqKmPgnoSmRKi5Y3sU41nt8hUc/edit?usp=sharing","TE018":"https://docs.google.com/presentation/d/16sr6rpp6zEBmaCttXPWloXHNLJJ8XskS4qNLGf2H55Y/edit?usp=sharing","TE019":"https://docs.google.com/presentation/d/1-w4E6w2tgdBgsY_Gr3RkWaXTMG5bgmFTchz77NtM_rY/edit?slide=id.g37727a7db71_0_6","TE020":"https://docs.google.com/presentation/d/154npskWbZFUMfwFzDVJNL4RkFqLIsLzGFZmJ7bEllsc/edit?usp=sharing","TE021":"https://docs.google.com/presentation/d/1F_Ow0r3ayaabygdwGi3FLwFFv10ns9-mdTyYW_ze5GU/edit?usp=sharing","TE022":"https://docs.google.com/presentation/d/1DzNt-PjTSuSCt18UIiCd_12uEzaUSmXSh64YQYu6204/edit?usp=sharing","TE023":"https://docs.google.com/presentation/d/1NCCjnzRJHAVUSShlPIM36juzC6ZPIblL0lSzFbFl0UE/edit?usp=sharing","TE001":"https://docs.google.com/presentation/d/1MBFSVsSQxzAl_QXBYZDAzUdKiQoa7AN42OKOFg-O6pA/edit","TE014":"https://docs.google.com/presentation/d/17PZOkI29iCI9LTc5Ot7J7mulQK6DtWiHttmqMWUHY9M/edit?usp=sharing","TE015":"https://docs.google.com/presentation/d/17oa1AHi5YTQsdCyVt9B9eEUCDz6gcYcYXvmRsXsMTKg/edit?usp=sharing","PO001":"https://docs.google.com/presentation/d/1mKN5mcpJd2pIt-JwLGtNbWkEV-ikmQD2J5yGXHA43_8/edit?usp=sharing","PO002":"https://docs.google.com/presentation/d/1No0zYkr1E7sDXHtfONUQU2u_HmdfEc-xNTvaMnUeieA/edit?usp=sharing","PO005":"https://docs.google.com/presentation/d/1_T9r2mC0P9r_jPMt8_7DVxCCU5cx-0GweKjrndUQMWY/edit?usp=sharing","PO004":"https://docs.google.com/presentation/d/1Z0dwi5OxBypV0sltJDO_HKzLDyyxu8jwsvDK2Pj8X1g/edit?usp=sharing","EV004":"https://docs.google.com/presentation/d/1N0Sv0KtIh_lEo-wAIF5Pe0hysCQ5UMcDR0juzNcJ6v8/edit?usp=sharing","EV006":"https://docs.google.com/presentation/d/1C1X0pBqsqqhiCIKS_F3k_zr407CXrIU2DqEdANJIJl4/edit?usp=sharing","EV007":"https://docs.google.com/presentation/d/1s6lp8yJ59dWh6ToRuIW2l8imiFxKrVgVY5UdJRWU8lg/edit?usp=sharing","PT002":"https://docs.google.com/presentation/d/1WguNdH-pwpP0QASh3RWlxlkDR0PoQ4-znLCRTq18vgc/edit?usp=sharing","PT003":"https://docs.google.com/presentation/d/1V0ofI1ImmJBqmzpjxlsqHuFSXGCAdtUxP0ZrYzGMFbU/edit?usp=sharing","PT004":"https://docs.google.com/presentation/d/1NBym8p_ug1Phd1BIl5NjSCvud6Fduoo2w7Iht3I2qpA/edit?usp=sharing","PT010":"https://docs.google.com/presentation/d/1INfNfD5EwGmal8TkbpYVmtTLySKAa8AbBm2BJRfv4Qs/edit?usp=sharing","PT013":"https://docs.google.com/presentation/d/1e1p1SjrTCpbEulnSOr4vFEFxfKiyUK0s-uWFCGF3QDk/edit?usp=sharing","PT015":"https://docs.google.com/presentation/d/1RzIuBCjwuJ8qCUSHyV1ijEi63vadhYWsPge_JYHBQms/edit?usp=sharing","PT005":"https://docs.google.com/presentation/d/1DXcfO8WsPgEnjp7yGgw4BRNfyXi3VbMyxA2MU4Spg-w/edit?usp=sharing","PT009":"https://docs.google.com/presentation/d/1TZCrj1kKP_tWH0N-ye89N4LvEVenUTP670g39EU8R7I/edit?usp=sharing"};
+const NAME_GUIDE_LINKS={"doordash":"https://docs.google.com/presentation/d/1_60D6Zb1ibKD9YxdHJ564a2HSNs0GZ3r1edzP7BpLvY/edit?usp=sharing","meu":"https://docs.google.com/presentation/d/1ghjiGvihCRUi1EzccRuULjcL7B81uGQYyOr-o8yzVH8/edit?usp=sharing","menusifu":"https://docs.google.com/presentation/d/1Z48UTvbT_tm7uKmUmt_sfP7njoFunysXY0O-SPbSUdk/edit?slide=id.g3c5d242a172_0_56","heyyou":"https://docs.google.com/presentation/u/0/d/1i5IJuweKVHwCGHzwVMx91me1HGWKj4gQ7GCe2r_WpwQ/edit","skip":"https://docs.google.com/presentation/d/11RZKLNlQQhRtorpv5CvLxkhGuaWkLihX6WVzrP2ZdPo/edit?usp=sharing","ownercom":"https://docs.google.com/presentation/d/1AakcIrBZPiTOeteXymQsmHg-v7R29WyXMxONLkbXb_c/edit?usp=sharing","cocacolaswbeveragesccswb":"https://docs.google.com/presentation/d/1Ao9SqPHFeZN2RgVdQjRNTyq59Wltt8EE5IyUo4Q0084/edit?usp=sharing","cocacolaflorida":"https://docs.google.com/presentation/d/1R6sWfmxu00DChZF8p61AUsd6i06ybp7HXzOPBuF_QGk/edit?slide=id.g326be3ea7ac_0_395","swirecocacola":"https://docs.google.com/presentation/d/13W8e4dmN0vMmLZP0KnuPytnZyZhlLrK194DLenhWLuQ/edit?slide=id.g2cd5a7c5be8_1_218","pretsl":"https://docs.google.com/presentation/d/18Srr0i14pz8UO2FQgaZHcKdfgunzoPxJq78yf7KBhAU/edit?slide=id.p","slice":"https://docs.google.com/presentation/d/1nvcjvR_JUC6j4QwG2XmBOWKZeEGpCVmO8yXE4pIKDe0/edit?usp=sharing","ubereatscapture":"https://docs.google.com/presentation/d/1QbwuJBfem9v6migMRag4buhsHXjQMPR-VlS57GjYFHc/edit?usp=sharing","ubereatshybrid":"https://docs.google.com/presentation/d/1gc9DA5gjm_n1nAqcg2ZLWXgxO3-eA_e0J9-1PIq4GNc/edit?slide=id.g3c5d242a172_0_56","cocacolareyes":"https://docs.google.com/presentation/d/1iFPGDP07e95ROL3raqLIth1QDgZkUOkNM-iv0sQkoWs/edit","ionhospitality":"https://docs.google.com/presentation/d/1bAnfjF0KJXEfcHd-RmqHXXggDLge-I9XttvVqW-lRsA/edit?usp=sharing","hungryhungry":"https://docs.google.com/presentation/d/1mPrU9obRtWKX8tyc1yQss-rF9jk0lXghB_QRA1BEE3A/edit?slide=id.g3acd7244b42_0_0","figure8":"https://docs.google.com/presentation/d/1FWyzYOI-w3lWLthM71wadtD9RGkHIWWHlK_yYOdWRWs/edit?usp=sharing","homefranchiseconcepts":"https://docs.google.com/presentation/d/1zhXKaBPxN4jVzjcqHGsFFaT2uu_eQZjjiaRdrQB7hBw/edit?slide=id.p","furnishedquarters":"https://docs.google.com/presentation/d/1AAVtPkkP_4vHW-NUVARNoAM8-o5yka4SDLgaWlFFyKI/edit?usp=sharing","certaintyproperty":"https://docs.google.com/presentation/d/1zeoHXFiJdfqHK1dGu7xh7A5iyApuT1I03cQznatt3BQ/edit?usp=sharing","hawthorneresidentialpartners":"https://docs.google.com/presentation/d/1jUwkvYgnWuwOMmITBu2fPvIriJnafPUAKpUrT6QOy0I/edit?usp=sharing","jameshardie":"https://docs.google.com/presentation/d/1eOfRihheyXHqW7eV-REN9cCmhLmJaaqDODK9zXzNWbw/edit?usp=drive_link","zumper":"https://docs.google.com/presentation/d/1mgVFFnA3GmHepxtfVmkS8vmm2uzB3bb-WORnvuSOpHU/edit?usp=sharing","landing":"https://docs.google.com/presentation/d/1x-sW0ShDbi2keyAvCXqWJ24IMXA_W4bISlHqAZypv4E/edit?slide=id.g3c5d242a172_0_56","avantstay":"https://docs.google.com/presentation/d/1upo-pXIiMRKhQ59CUEfkVtfZs6u8SlvS0KHGgaHHtnU/edit?usp=sharing","intersection":"https://docs.google.com/presentation/d/1ha0tc68TO1uQxVW7HX3gparxdCMVMYzU1GKu6_AszNA/edit?usp=sharing","volta":"https://docs.google.com/presentation/d/1Ss5DCAEwQ27UenXA-k8Yruze2tEgDtxROpOZ7qS-DWE/edit?usp=sharing","pivot":"https://docs.google.com/presentation/d/1r3T0orArIELEVy9HWUpPRC30WGV2xuSiO7iD-wgsuPE/edit?usp=sharing","shellsg":"https://docs.google.com/presentation/d/1DsTH_3CSKhdm469JJUAc9Fid_EU8uLhRhzMZUuWzbZU/edit?usp=sharing","stablewoodproperties":"https://docs.google.com/presentation/d/13vy4epHojwb3F16cd5VuFTtDFGGYwq-90ppmdOWXQfU/edit?usp=sharing","estaga":"https://docs.google.com/presentation/d/1Lfvz5XI2_UakhmSirjJOvjKGzWU2OV7ZfRDJUE33zy4/edit?usp=sharing","woodtone":"https://docs.google.com/presentation/d/1yln4QbPia2NSKnOWC6_nZzOTj_lpMhcKRv6o40OVzW8/edit?usp=sharing","diverzify":"https://docs.google.com/presentation/d/16lVtsvZXMqWO1V3y_sWlsu9XiLwmGXAzgoZRckIoZzQ/edit?usp=sharing","joltcharging":"https://docs.google.com/presentation/d/14bytH5sGR7rEAmjot145gsIA9rB5weqqBZ5lac65iB0/edit?usp=sharing","usgbc":"https://docs.google.com/presentation/d/1EEK0ne-qhV_VQt-NWX1IcGy8lJfTcPyptXj3lr9ppLY/edit?usp=sharing","bringatrailer":"https://docs.google.com/presentation/d/1tK3rDmP-l_oP4v-OXKvDzA6faNfWS9sqyDxzdBc04SA/edit?slide=id.g3c5d242a172_0_56","carsandbids":"https://docs.google.com/presentation/d/14CMglNxtnAI67PaWdog6PtqprMcCpO5Z_YNUkpnLbUI/edit?usp=sharing","turo":"https://docs.google.com/presentation/d/1WWrVStfxWMGEgyTiOY1HJbnxoNknVkvZwRkHPdwjjIw/edit?usp=sharing","autohunter":"https://docs.google.com/presentation/d/1nhXruqIt3KGOUKfHIvkZKJ5wLyvCvZ83GR2czzdx1IY/edit?usp=sharing","carvertise":"https://docs.google.com/presentation/d/1dk7KCBVwiWzv6yXnPp-xNZGs_dfq7RDDMY3laLAUJoE/edit?usp=sharing","pcarmarket":"https://docs.google.com/presentation/d/1afWdIn3x5p8BJeF3ZQEbZRYik63mdUd78p0kKZkkGTI/edit?slide=id.g380febd6c64_0_71","sbmedia":"https://docs.google.com/presentation/d/1LWtk7Bo97hyqZrg_DIWt7gkYgbT58WYfCwzLJkHB8X0/edit?slide=id.g2cd5a7c5be8_1_218","sothebys":"https://docs.google.com/presentation/d/1zLuAmRDbSQP7F9mfY3dXia4IfeelNhYFLlaiIzntPXc/edit?slide=id.p","hagerty":"https://docs.google.com/presentation/d/1cbuSY0xoJrLER9F-cE2tHFOpOgdZFYUPgCRS1obvHHg/edit?slide=id.g2cd5a7c5be8_1_218","airbnbexperiences":"https://docs.google.com/presentation/d/1_NTn8H1TmKamiq0vpQUXsZSr0GV5mvIs9sFnRxubU5Y/edit?slide=id.g2cd5a7c5be8_1_218","renderseo":"https://docs.google.com/presentation/d/1Z87lYt22cocssNGiRLuNMtBuwT7aMDWlGLtOSOurQs8/edit?slide=id.g2cd5a7c5be8_1_218","optimizesocialmedia":"https://docs.google.com/presentation/d/1tUaTQxCTSRNlZHSuWbkAoMsfnTqBCbMJ28cZOt1sUNY/edit?usp=sharing","amerivet":"https://docs.google.com/presentation/d/1INfNfD5EwGmal8TkbpYVmtTLySKAa8AbBm2BJRfv4Qs/edit?usp=sharing","aspendental":"https://docs.google.com/presentation/d/17mwukhvu132p2QcuxKqKmPgnoSmRKi5Y3sU41nt8hUc/edit?usp=sharing","practicepromotions":"https://docs.google.com/presentation/d/154npskWbZFUMfwFzDVJNL4RkFqLIsLzGFZmJ7bEllsc/edit?usp=sharing","jeisys":"https://docs.google.com/presentation/d/1F_Ow0r3ayaabygdwGi3FLwFFv10ns9-mdTyYW_ze5GU/edit?usp=sharing","clearchoice":"https://docs.google.com/presentation/d/1DzNt-PjTSuSCt18UIiCd_12uEzaUSmXSh64YQYu6204/edit?usp=sharing","otodevelopment":"https://docs.google.com/presentation/d/1NCCjnzRJHAVUSShlPIM36juzC6ZPIblL0lSzFbFl0UE/edit?usp=sharing","interdent":"https://docs.google.com/presentation/d/1MBFSVsSQxzAl_QXBYZDAzUdKiQoa7AN42OKOFg-O6pA/edit","prosple":"https://docs.google.com/presentation/d/17PZOkI29iCI9LTc5Ot7J7mulQK6DtWiHttmqMWUHY9M/edit?usp=sharing","slalom":"https://docs.google.com/presentation/d/17oa1AHi5YTQsdCyVt9B9eEUCDz6gcYcYXvmRsXsMTKg/edit?usp=sharing","doordashgrocery":"https://docs.google.com/presentation/d/1mKN5mcpJd2pIt-JwLGtNbWkEV-ikmQD2J5yGXHA43_8/edit?usp=sharing","instacart":"https://docs.google.com/presentation/d/1No0zYkr1E7sDXHtfONUQU2u_HmdfEc-xNTvaMnUeieA/edit?usp=sharing","instacarteu":"https://docs.google.com/presentation/d/1No0zYkr1E7sDXHtfONUQU2u_HmdfEc-xNTvaMnUeieA/edit?usp=sharing","dierbergs":"https://docs.google.com/presentation/d/1_T9r2mC0P9r_jPMt8_7DVxCCU5cx-0GweKjrndUQMWY/edit?usp=sharing","doordashrestaurantdepot":"https://docs.google.com/presentation/d/1Z0dwi5OxBypV0sltJDO_HKzLDyyxu8jwsvDK2Pj8X1g/edit?usp=sharing","getyourguide":"https://docs.google.com/presentation/d/1N0Sv0KtIh_lEo-wAIF5Pe0hysCQ5UMcDR0juzNcJ6v8/edit?usp=sharing","operationhomefront":"https://docs.google.com/presentation/d/1C1X0pBqsqqhiCIKS_F3k_zr407CXrIU2DqEdANJIJl4/edit?usp=sharing","nocd":"https://docs.google.com/presentation/d/1V0ofI1ImmJBqmzpjxlsqHuFSXGCAdtUxP0ZrYzGMFbU/edit?usp=sharing","priviahealth":"https://docs.google.com/presentation/d/1NBym8p_ug1Phd1BIl5NjSCvud6Fduoo2w7Iht3I2qpA/edit?usp=sharing","ecg":"https://docs.google.com/presentation/d/1e1p1SjrTCpbEulnSOr4vFEFxfKiyUK0s-uWFCGF3QDk/edit?usp=sharing","sna":"https://docs.google.com/presentation/d/1DXcfO8WsPgEnjp7yGgw4BRNfyXi3VbMyxA2MU4Spg-w/edit?usp=sharing","petwants":"https://docs.google.com/presentation/d/1TZCrj1kKP_tWH0N-ye89N4LvEVenUTP670g39EU8R7I/edit?usp=sharing"};
+// Best-available guide link for a client: the column-B link from the categorization sheet (by code),
+// falling back to the first Google Docs/Slides/Drive URL found in the update text.
+function guideUrlFor(c){
+  if(!c) return null;
+  if(c.code){ const t=String(c.code).trim(); if(CODE_GUIDE_LINKS[t]) return CODE_GUIDE_LINKS[t]; }
+  if(c.name){ const n=String(c.name).toLowerCase().replace(/[^a-z0-9]/g,''); if(NAME_GUIDE_LINKS[n]) return NAME_GUIDE_LINKS[n]; }
+  if(!c.current||!c.current.text) return null;
+  const m=c.current.text.match(/https?:\/\/(?:docs\.google\.com|drive\.google\.com)\/[^\s)<]+/i);
+  return m?m[0].replace(/[.,;:!?)\]'"]+$/,''):null;
+}
+const BLOCK_TAGS=['DIV','P','LI','TR','BLOCKQUOTE','H1','H2','H3','H4','H5','H6'];
+function isSafeHref(href){return /^https?:\/\//i.test(href)||/^mailto:/i.test(href)}
+
+function renderStats(){const total=state.clients.length;const recent=state.clients.filter(c=>c.current&&daysAgo(c.current.date)<RECENT_WEEK_DAYS).length;document.getElementById('pills').innerHTML=`<div class="pill"><div class="num">${total}</div><div class="lbl">Clients</div></div><button class="pill pill-btn flag" id="recentWeekPill"><div class="num">${recent}</div><div class="lbl">Updated from last week</div></button>`;const wp=document.getElementById('recentWeekPill');if(wp)wp.onclick=()=>openRecentUpdates(RECENT_WEEK_DAYS,'Updated from last week');}
+const CLIENT_TYPES=[
+  {key:'editing_jobs',label:'Editing Jobs',icon:'🗂️',partners:['Talkiatry','Oak Street Health']},
+  {key:'food',label:'Food',icon:'🍽️',partners:['DoorDash','DoorDash Restaurant','me&u','MenuSifu','Hey You','Skip','Owner.com','Coca Cola SW Beverages','Coca Cola Florida','Swire Coca Cola','Pretsl','Town','Slice','UberEats','Coca Cola Reyes','ION Hospitality','Goldbelly','HungryHungry','Mr. Yum','Figure 8']},
+  {key:'real_estate',label:'Real Estate',icon:'🏠',partners:['Home Franchise Concepts','Furnished Quarters','Certainty Property','Hawthorne Residential Partners','James Hardie','Kompan','Zumper','Landing','Avantstay','Intersection','Volta','Pivot','Shell SG','Stablewood Properties','STO Building Group','Estaga','Woodtone','Diverzify','Jolt Charging','Oak Street Health','USGBC','Eataly']},
+  {key:'automotive',label:'Automotive',icon:'🚗',partners:['Bring a Trailer','Cars and Bids','Turo','Adgile','AutoHunter','BarnFinds','Carvertise','Classic','Custom Truck','Epic Road Auctions','Hemmings','Onlyinboards','PCarMarket','SB Media',"Sotheby's",'Hagerty','Amazon']},
+  {key:'team_office',label:'Team and Office',icon:'🏢',partners:['AirBnB Experiences','RenderSEO','Autoguru','Dieselmatic','EyeCarePro','Fresha','GoDaddy','Legalfit','National Dental Care','Optimize Social Media','Amerivet','Aspen Dental','Oak Street Health','Kompan','Practice Promotions','Jeisys','Clear Choice','Oto Development','Interdent','Care for Kids','Centerbase','Prosple','Slalom']},
+  {key:'product',label:'Product',icon:'📦',partners:['Doordash Grocery','Instacart','Instacart EU',"Dierberg's",'DoorDash New Verticals','Eataly','DoorDash Restaurant Depot']},
+  {key:'event',label:'Event',icon:'🎉',partners:['Fresh Coat Painters','GetYourGuide','Operation Home Front','STO Building Group','ION Hospitality','Eataly','Roc360','Bar Crawl Nation','Utility Warehouse']},
+  {key:'portrait',label:'Portrait',icon:'🖼️',partners:['Heal.me','Oak Street Health','NOCD','Privia Health','AmeriVet','Caring Transitions','ECG','Redfin','SNA','Roc360','Healthcare IT Leaders','Utility Warehouse','Pet Wants','BetterUp']}
+];
+CLIENT_TYPES.forEach(t=>t.set=new Set(t.partners.map(normalizeName)));
+const CODE_PREFIX_TYPE={EJ:"editing_jobs",FO:"food",RE:"real_estate",AU:"automotive",TE:"team_office",PO:"product",EV:"event",PT:"portrait"};
+// Categorization sheet fallback: normalized partner name -> [column-B code, client type].
+const CATALOG={"talkiatry":["EJ001","editing_jobs"],"oakstreethealth":["EJ002","editing_jobs"],"doordash":["FO001","food"],"meandu":["FO002","food"],"menusifu":["FO003","food"],"heyyou":["FO004","food"],"skip":["FO005","food"],"ownercom":["FO006","food"],"cocacolaswbeveragesccswb":["FO009","food"],"cocacolaflorida":["FO010","food"],"swirecocacola":["FO011","food"],"pretsl":["FO012","food"],"town":["FO014","food"],"slice":["FO015","food"],"ubereatscapture":["FO017 (Capture)","food"],"ubereatshybrid":["FO017 (Hybrid)","food"],"cocacolareyes":["FO018","food"],"ionhospitality":["FO019","food"],"goldbelly":["FO007","food"],"hungryhungry":["FO008","food"],"mryum":["FO013","food"],"figure8":["FO016","food"],"homefranchiseconcepts":["RE001","real_estate"],"furnishedquarters":["RE002","real_estate"],"certaintyproperty":["RE003","real_estate"],"hawthorneresidentialpartners":["RE004","real_estate"],"jameshardie":["RE005","real_estate"],"kompan":["RE006","real_estate"],"zumper":["RE007","real_estate"],"landing":["RE008","real_estate"],"avantstay":["RE009","real_estate"],"intersection":["RE010","real_estate"],"volta":["RE011","real_estate"],"pivot":["RE012","real_estate"],"shellsg":["RE013","real_estate"],"stablewoodproperties":["RE014","real_estate"],"stobuildinggroup":["RE015","real_estate"],"estaga":["RE016","real_estate"],"woodtone":["RE017","real_estate"],"diverzify":["RE018","real_estate"],"joltcharging":["RE019","real_estate"],"usgbc":["RE021","real_estate"],"eataly":["RE022","real_estate"],"bringatrailer":["AU001","automotive"],"carsandbids":["AU002","automotive"],"turo":["AU003","automotive"],"adgile":["AU006","automotive"],"autohunter":["AU004","automotive"],"barnfinds":["AU005","automotive"],"carvertise":["AU007","automotive"],"classic":["AU008","automotive"],"customtruck":["AU009","automotive"],"epicroadauctions":["AU010","automotive"],"hemmings":["AU011","automotive"],"onlyinboards":["AU012","automotive"],"pcarmarket":["AU013","automotive"],"sbmedia":["AU014","automotive"],"sothebys":["AU015","automotive"],"hagerty":["AU016","automotive"],"amazon":["AU017","automotive"],"airbnbexperiences":["TE002","team_office"],"renderseo":["TE003","team_office"],"autoguru":["TE004","team_office"],"dieselmatic":["TE007","team_office"],"eyecarepro":["TE008","team_office"],"fresha":["TE009","team_office"],"godaddy":["TE010","team_office"],"legalfit":["TE011","team_office"],"nationaldentalcare":["TE012","team_office"],"optimizesocialmedia":["TE013","team_office"],"amerivet":["TE016","team_office"],"aspendental":["TE017","team_office"],"practicepromotions":["TE020","team_office"],"jeisys":["TE021","team_office"],"clearchoice":["TE022","team_office"],"otodevelopment":["TE023","team_office"],"interdent":["TE001","team_office"],"careforkids":["TE005","team_office"],"centerbase":["TE006","team_office"],"prosple":["TE014","team_office"],"slalom":["TE015","team_office"],"doordashgrocery":["PO001","product"],"instacart":["PO002","product"],"instacarteu":["PO002","product"],"dierbergs":["PO005","product"],"doordashnewverticals":["PO006","product"],"doordashrestaurantdepot":["PO004","product"],"freshcoatpainters":["EV003","event"],"getyourguide":["EV004","event"],"operationhomefront":["EV006","event"],"roc360":["EV001","event"],"barcrawlnation":["EV002","event"],"utilitywarehouse":["EV005","event"],"healme":["PT001","portrait"],"nocd":["PT003","portrait"],"priviahealth":["PT004","portrait"],"caringtransitions":["PT012","portrait"],"ecg":["PT013","portrait"],"redfin":["PT014","portrait"],"sna":["PT005","portrait"],"healthcareitleaders":["PT007","portrait"],"petwants":["PT009","portrait"],"betterup":["PT011","portrait"]};
+function codeToType(code){if(!code)return null;const m=String(code).match(/^\s*([A-Za-z]{2})/);return m?(CODE_PREFIX_TYPE[m[1].toUpperCase()]||null):null;}
+function clientMatchesType(c,key){const t=CLIENT_TYPES.find(x=>x.key===key);return t?t.set.has(normalizeName(c.name)):true;}
+// Pastel note colour per client type (matches the type-icon accent colours)
+const TYPE_COLORS={
+  editing_jobs:"#D3FEFB", // cyan
+  food:"#FFE8DB",         // orange
+  real_estate:"#F9DDE4",  // red
+  automotive:"#E7F0FE",   // blue
+  team_office:"#D7F7E1",  // green
+  product:"#FFEECA",      // yellow
+  event:"#F7EFFD",        // purple
+  portrait:"#FFEBF8"      // magenta
+};
+const TYPE_GRAYS={editing_jobs:"#2C3236",food:"#332F2A",real_estate:"#332B2B",automotive:"#2A2F36",team_office:"#2D332C",product:"#33312A",event:"#302C36",portrait:"#332C31"};
+// Neutral palette note colours use the mid-row shades (still dark-ink readable)
+const TYPE_VIVID={
+  editing_jobs:"#79F8F1", // cyan
+  food:"#FFA979",         // orange
+  real_estate:"#E87992",  // red
+  automotive:"#87B4FC",   // blue
+  team_office:"#66DF8C",  // green
+  product:"#FFD067",      // yellow
+  event:"#C288EE",        // purple
+  portrait:"#F673C4"      // magenta
+};
+// Bold bottom-row shades — used for the checklist dots so they stay vivid in every theme
+const TYPE_BOLD={
+  editing_jobs:"#06CCC1", // cyan
+  food:"#FF5E03",         // orange
+  real_estate:"#C82348",  // red
+  automotive:"#146CFA",   // blue
+  team_office:"#24AB4F",  // green
+  product:"#FFB719",      // yellow
+  event:"#831DD0",        // purple
+  portrait:"#E40F93"      // magenta
+};
+const NEUTRAL_PASTEL="#E3E3E3",NEUTRAL_GRAY="#2E3138",NEUTRAL_VIVID="#9E9E9E",NEUTRAL_BOLD="#555555";
+function clientTypeKey(c){
+  const n=normalizeName(canonicalName(c.name));
+  for(const t of CLIENT_TYPES){if(t.set.has(n))return t.key;}
+  const cat=CATALOG[n];
+  if(cat){ if(cat[1])return cat[1]; const t=codeToType(cat[0]); if(t)return t; }
+  const t2=codeToType(c.code); if(t2)return t2;
+  return null;
+}
+function clientColor(c){const k=clientTypeKey(c);return (k&&TYPE_COLORS[k])||NEUTRAL_PASTEL;}
+function clientGray(c){const k=clientTypeKey(c);return (k&&TYPE_GRAYS[k])||NEUTRAL_GRAY;}
+function clientVivid(c){const k=clientTypeKey(c);return (k&&TYPE_VIVID[k])||NEUTRAL_VIVID;}
+function clientBold(c){const k=clientTypeKey(c);return (k&&TYPE_BOLD[k])||NEUTRAL_BOLD;}
+function noteColor(c){return state.theme==='dark'?clientGray(c):state.theme==='neutral'?clientVivid(c):clientColor(c);}
+function dotColor(c){return state.theme==='light'?clientColor(c):clientBold(c);}
+
+function visibleClients(){let list=state.clients.slice();const q=ui.search.trim().toLowerCase();if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||(c.code||"").toLowerCase().includes(q)||(c.current&&c.current.text.toLowerCase().includes(q)));if(ui.typeFilter)list=list.filter(c=>clientMatchesType(c,ui.typeFilter));if(ui.filter==="recent")list=list.filter(c=>c.current&&daysAgo(c.current.date)<RECENT_DAYS);if(ui.dateFrom)list=list.filter(c=>c.current&&c.current.date>=ui.dateFrom);if(ui.dateTo)list=list.filter(c=>c.current&&c.current.date<=ui.dateTo);if(ui.sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));else list.sort((a,b)=>{const da=a.current?a.current.date:"0000",db=b.current?b.current.date:"0000";return db.localeCompare(da)});return list;}
+function render(){
+  renderStats();
+  const spotEl=document.getElementById('spotlightLeft');
+  const checkEl=document.getElementById('checklist');
+  if(state.clients.length===0){
+    spotEl.innerHTML=`<div class="empty-state"><h2>No clients yet</h2><p>Add your first client to start pinning guidelines.</p></div>`;
+    checkEl.innerHTML='';
+    return;
+  }
+  let preview;
+  const picked=ui.spotlightId?state.clients.find(c=>c.id===ui.spotlightId):null;
+  if(picked){
+    preview=[picked]; // user explicitly selected one partner
+  }else{
+    // default: every partner whose latest update falls on the most recent date
+    const withDate=state.clients.filter(c=>c.current&&c.current.date);
+    if(withDate.length){
+      const maxDate=withDate.reduce((m,c)=>c.current.date>m?c.current.date:m,'0000-00-00');
+      preview=withDate.filter(c=>c.current.date===maxDate).sort((a,b)=>a.name.localeCompare(b.name));
+    }else{
+      preview=[state.clients[0]];
+    }
+  }
+  const multi=preview.length>1;
+  spotEl.innerHTML=`<div class="preview-grid${multi?' multi':''}">${preview.map(largeNoteHTML).join("")}</div>`;
+
+  const previewIds=new Set(preview.map(c=>c.id));
+  const list=visibleClients();
+  if(list.length===0){
+    checkEl.innerHTML=`<div class="empty-note" style="padding:8px 4px">Nothing matches the current search or filter.</div>`;
+    return;
+  }
+  const rest=list.filter(c=>!previewIds.has(c.id));
+  checkEl.innerHTML=rest.length?rest.map(checklistItemHTML).join(""):`<div class="empty-note" style="padding:8px 4px">That's everyone matching — the rest are shown in the preview.</div>`;
+}
+function largeNoteHTML(c){
+  const recent=c.current&&daysAgo(c.current.date)<RECENT_DAYS;
+  const dark=state.theme==='dark';
+  const h=hashInt(c.id);
+  const paper=noteColor(c);
+  const tape=dark?DARK_TAPE:TAPES[h%TAPES.length];
+  const tilt=((h%5)-2)*0.4;const taperot=((h>>2)%5-2)*1.2;
+  const styleAttr=`--paper:${paper};--tape:${tape};--tilt:${tilt}deg;--tape-rot:${taperot}deg`;
+  const guideUrl=guideUrlFor(c);
+  const meta=`${c.code?`<button type="button" class="code-tag code-link" data-guide="${escAttr(guideUrl||'')}" data-code="${escAttr(c.code)}" title="${guideUrl?'Open editing guide':'No guide link available'}">${esc(c.code)}</button>`:''}${c.pilot?`<span class="pilot">Pilot</span>`:''}`;
+
+  let status;
+  if(!c.current)status=`<span class="status empty"><span class="dot"></span>No note yet</span>`;
+  else if(recent)status=`<span class="status recent">✦ Updated ${relTime(c.current.date)}</span>`;
+  else status=`<span class="status stable"><span class="dot"></span>Updated ${relTime(c.current.date)}</span>`;
+  let body;
+  if(!c.current){body=`<div class="empty-note">No guideline on record yet for this client.</div>`;}
+  else{const long=c.current.text.length>320,open=ui.expanded[c.id];body=`<div class="guideline ${long&&!open?'clamp':''}">${formatGuideline(c.current.text)}</div>${long?`<button class="expand" data-expand="${c.id}">${open?'Show less':'Show more'}</button>`:''}<div class="source-line">${c.current.submitter?`from <b>${esc(c.current.submitter)}</b> · `:(c.current.source?`from <b>${linkify(c.current.source)}</b> · `:'')}${fmtDate(c.current.date)}</div>`;}
+  const hist=(c.history?c.history.length:0);
+  return `<div class="note" style="${styleAttr}"><div class="note-head"><div class="note-title" data-select="${c.id}"><div class="client-name">${esc(c.name)}</div><div class="client-meta">${meta}</div></div><div class="kebab"><button class="btn ghost sm" data-menu="${c.id}" aria-label="Client options">⋯</button><div class="menu" id="menu-${c.id}"><button data-editclient="${c.id}">Edit client</button><button data-mergeclient="${c.id}">Merge duplicate…</button><button class="del" data-delclient="${c.id}">Delete client</button></div></div></div>${status}${body}<div class="note-foot"><button class="btn sm" data-history="${c.id}" ${hist?'':'disabled style="opacity:.45;cursor:default"'}>History${hist?` · ${hist}`:''}</button></div></div>`;
+}
+
+function checklistItemHTML(c){
+  const recent=c.current&&daysAgo(c.current.date)<RECENT_DAYS;
+  const dotc=dotColor(c);
+  return `<button class="check-row" data-select="${c.id}">
+    <span class="check-dot" style="background:${dotc}"></span>
+    <span class="check-name">${esc(c.name)}</span>
+    ${c.code?`<span class="check-code">${esc(c.code)}</span>`:''}
+    ${recent?`<span class="check-flag" title="Updated recently">✦</span>`:''}
+  </button>`;
+}
+
+function openOverlay(id){document.getElementById(id).classList.add('open')}
+function closeOverlays(){document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('open'))}
+document.addEventListener('click',e=>{if(e.target.matches('[data-close]')||e.target.classList.contains('overlay'))closeOverlays()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOverlays()});
+
+document.getElementById('themeToggle').onclick=async()=>{const i=THEME_ORDER.indexOf(THEME_ORDER.includes(state.theme)?state.theme:'light');state.theme=THEME_ORDER[(i+1)%THEME_ORDER.length];applyTheme();await save();render();};
+
+let editingClientId=null;
+function openClient(id){editingClientId=id||null;const c=id?state.clients.find(x=>x.id===id):null;document.getElementById('clientTitle').textContent=c?'Edit client':'Add a client';document.getElementById('c_name').value=c?c.name:"";document.getElementById('c_code').value=c?(c.code||""):"";document.getElementById('c_pilot').checked=c?!!c.pilot:false;document.getElementById('c_delete').style.display=c?'inline-flex':'none';openOverlay('clientOverlay');setTimeout(()=>document.getElementById('c_name').focus(),50);}
+
+
+function mergeOneEntry(name,date,text,source,code,pilot,submitter){
+  name=canonicalName(name);
+  if(!code){const cat=CATALOG[normalizeName(name)];if(cat&&cat[0])code=cat[0];}
+  let c=state.clients.find(x=>normalizeName(x.name)===normalizeName(name));
+  if(!c){
+    c={id:uid(),name,code:code||"",color:PASTELS[state.clients.length%PASTELS.length],pilot:!!pilot,current:null,history:[]};
+    state.clients.push(c);
+  }else{
+    if(code) c.code=code;
+    if(pilot) c.pilot=true;
+  }
+  const already=c.current&&c.current.date===date&&c.current.text===text;
+  if(!already){
+    if(c.current){c.history=c.history||[];c.history.unshift(c.current);}
+    c.current={text,html:linkify(text),source,date,submitter:submitter||""};
+    return true;
+  }else{
+    c.current.html=linkify(text);
+    if(submitter)c.current.submitter=submitter; // backfill onto existing note
+    if(source)c.current.source=source;
+    return false;
+  }
+}
+async function runSheetImport(){
+  let importData;
+  try{importData=JSON.parse(document.getElementById('sheetImportData').textContent);}catch(e){return;}
+  for(const item of importData) mergeOneEntry(item.name,item.date,item.text,item.source,item.code,item.pilot,item.submitter);
+  await save();
+}
+
+const SHEET_FILE_ID="1Dt_oZGhKHI_U24peMCm6aWLCcP4F-nFlX8n_lOTEy8w";
+const SHEET_GID="1089667144";
+function setSyncStatus(msg){
+  const el=document.getElementById('syncStatus');
+  if(!el)return;
+  const t=state.driveSync&&state.driveSync.lastChecked?new Date(state.driveSync.lastChecked).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
+  el.textContent=t?`${msg} · ${t}`:msg;
+}
+function cleanCell(s){return (s||"").replace(/\\_/g,'_').replace(/\\([&<>#`*])/g,'$1').replace(/\n{3,}/g,'\n\n').trim();}
+function isTestRow(partner,update){
+  const p=(partner||"").trim().toLowerCase(),u=(update||"").trim().toLowerCase();
+  if(!p||!u)return true;
+  if(/^test(\s*\d*|\s+test)?$/.test(p))return true;
+  if(p==="test"||u==="test"||u==="test only"||u==="test2"||u==="testtest")return true;
+  return false;
+}
+function gvizToDate(v){
+  if(v==null)return null;
+  const s=String(v);
+  const m=s.match(/^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?/);
+  if(m)return new Date(+m[1],+m[2],+m[3],+(m[4]||0),+(m[5]||0),+(m[6]||0));
+  const d=new Date(s);return isNaN(d)?null:d;
+}
+function toISODate(d){
+  if(!d)return "";
+  const dt=(d instanceof Date)?d:gvizToDate(d);
+  if(dt&&!isNaN(dt))return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+  const s=String(d).trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
+  return s;
+}
+// Partners recognised for splitting a single "combined" announcement row into per-partner notes
+function splitCombined(update,date){
+  const known=[];
+  CLIENT_TYPES.forEach(t=>t.partners.forEach(p=>{if(!known.includes(p))known.push(p);}));
+  const extra=["Autohunter","Pcarmarket","Estaga","Furnished Quarters","Coca-cola Southwest beverages","Coca-cola Florida","Coca-Cola Florida","Swire Coca-cola","Hungryhungry","Menusifu","Getyourguide","Reyes Coca-cola","Hagerty"];
+  extra.forEach(p=>{if(!known.includes(p))known.push(p);});
+  const lines=update.split('\n');
+  const hits=[];
+  lines.forEach((ln,idx)=>{
+    const trimmed=ln.trim();
+    const match=known.find(p=>normalizeName(trimmed)===normalizeName(p));
+    if(match)hits.push({name:match,idx});
+  });
+  if(hits.length<2)return null;
+  const out=[];
+  for(let k=0;k<hits.length;k++){
+    const start=hits[k].idx,end=k+1<hits.length?hits[k+1].idx:lines.length;
+    const body=lines.slice(start,end).join('\n').trim();
+    out.push({partner:hits[k].name,date,update:body});
+  }
+  return out;
+}
+// Load the sheet via Google's gviz endpoint as a <script> (JSONP) — not subject to CORS
+function fetchGviz(){
+  return new Promise((resolve,reject)=>{
+    const cbName='__gvizCb_'+Date.now()+Math.floor(Math.random()*1000);
+    let done=false;
+    const s=document.createElement('script');
+    const cleanup=()=>{try{delete window[cbName];}catch(e){window[cbName]=undefined;}if(s.parentNode)s.parentNode.removeChild(s);clearTimeout(timer);};
+    window[cbName]=(resp)=>{done=true;cleanup();resolve(resp);};
+    s.src=`https://docs.google.com/spreadsheets/d/${SHEET_FILE_ID}/gviz/tq?tqx=out:json;responseHandler:${cbName}&gid=${SHEET_GID}&headers=1&_cb=`+Date.now();
+    s.onerror=()=>{if(!done){cleanup();reject(new Error("couldn't load sheet (check sharing)"));}};
+    const timer=setTimeout(()=>{if(!done){cleanup();reject(new Error('timeout'));}},15000);
+    document.head.appendChild(s);
+  });
+}
+async function checkDriveLive(){
+  if(!state.driveSync) state.driveSync={lastSeenTimestamp:"Jul 17, 2026, 8:08:04 AM",lastChecked:null,checking:false};
+  if(state.driveSync.checking) return;
+  state.driveSync.checking=true;
+  setSyncStatus('Checking sheet…');
+  try{
+    const resp=await fetchGviz();
+    state.driveSync.lastChecked=Date.now();
+    const table=resp&&resp.table;
+    if(!table||!table.rows) throw new Error('unexpected sheet format');
+    let cols=(table.cols||[]).map(c=>((c&&c.label)||'').trim().toLowerCase());
+    let iP=cols.indexOf('partner'),iD=cols.indexOf('date'),iU=cols.indexOf('update'),iS=cols.indexOf('submitted by'),iT=cols.indexOf('timestamp');
+    if(iP<0&&iT<0){iP=0;iD=1;iU=2;iS=3;iT=4;} // positional fallback if labels missing
+    const baseline=new Date(state.driveSync.lastSeenTimestamp);
+    let changed=0,maxDate=baseline;
+    for(const row of table.rows){
+      const c=(row&&row.c)||[];
+      const cellF=(i)=> (i>=0&&c[i]) ? (c[i].f!=null?String(c[i].f):(c[i].v!=null?String(c[i].v):'')) : '';
+      const partner=cleanCell(cellF(iP)),update=cleanCell(cellF(iU)),submitter=cleanCell(cellF(iS));
+      if(isTestRow(partner,update))continue;
+      const dateISO=toISODate(c[iD]?(c[iD].v!=null?c[iD].v:c[iD].f):'');
+      let tsDate=c[iT]?(gvizToDate(c[iT].v)||(c[iT].f?new Date(c[iT].f):null)):null;
+      if(!tsDate||isNaN(tsDate)||!(tsDate>baseline))continue;
+      const combined=splitCombined(update,dateISO);
+      if(combined){for(const cc of combined){if(mergeOneEntry(cc.partner,cc.date,cc.update,"Editing Guide Update sheet (live)",null,false,submitter))changed++;}}
+      else{if(mergeOneEntry(partner,dateISO,update,"Editing Guide Update sheet (live)",null,false,submitter))changed++;}
+      if(tsDate>maxDate)maxDate=tsDate;
+    }
+    state.driveSync.lastSeenTimestamp=maxDate.toISOString();
+    render();
+    setSyncStatus(changed>0?`Updated ${changed} note(s)`:'Up to date');
+  }catch(e){
+    console.error('Live sync failed:',e);
+    setSyncStatus('Sync unavailable — '+((e&&e.message)||'error'));
+  }
+  state.driveSync.checking=false;
+  await save();
+}
+document.getElementById('typeGrid').addEventListener('click',e=>{
+  const b=e.target.closest('[data-type]');if(!b)return;
+  const key=b.dataset.type;
+  ui.typeFilter=(ui.typeFilter===key)?null:key;
+  document.querySelectorAll('#typeGrid .type-btn').forEach(x=>x.classList.toggle('on',x.dataset.type===ui.typeFilter));
+  render();
+});
+document.getElementById('syncRefreshBtn').onclick=async()=>{
+  const btn=document.getElementById('syncRefreshBtn');
+  btn.disabled=true;const oldLabel=btn.innerHTML;btn.textContent='Checking…';
+  await checkDriveLive();
+  btn.disabled=false;btn.innerHTML=oldLabel;
+};
+document.getElementById('c_save').onclick=async()=>{const name=document.getElementById('c_name').value.trim();if(!name){document.getElementById('c_name').focus();return;}const code=document.getElementById('c_code').value.trim(),pilot=document.getElementById('c_pilot').checked;if(editingClientId){Object.assign(state.clients.find(x=>x.id===editingClientId),{name,code,pilot});}else{state.clients.push({id:uid(),name,code,pilot,current:null,history:[]});}await save();render();closeOverlays();};
+document.getElementById('c_delete').onclick=async()=>{if(!editingClientId)return;const c=state.clients.find(x=>x.id===editingClientId);if(confirm(`Delete “${c.name}” and all its history? This cannot be undone.`)){state.clients=state.clients.filter(x=>x.id!==editingClientId);await save();render();closeOverlays();}};
+
+function openHistory(id){const c=state.clients.find(x=>x.id===id);document.getElementById('historyTitle').textContent=`${c.name} — history`;const versions=[];if(c.current)versions.push({...c.current,current:true});(c.history||[]).forEach(v=>versions.push(v));document.getElementById('historyBody').innerHTML=versions.length?versions.map(v=>`<div class="version ${v.current?'current':''}"><div><span class="v-date">${fmtDate(v.date)}</span>${v.current?'<span class="v-badge">Current</span>':''}</div>${v.submitter?`<div class="v-src">from ${esc(v.submitter)}</div>`:(v.source?`<div class="v-src">from ${linkify(v.source)}</div>`:'')}<div class="v-text">${formatGuideline(v.text)}</div></div>`).join(""):`<p style="color:var(--muted)">No versions yet.</p>`;openOverlay('historyOverlay');}
+
+function openRecentUpdates(days,titleText){
+  const win=days||RECENT_DAYS;
+  document.getElementById('recentTitle').textContent=titleText||`Updated in the last ${win} days`;
+  const recent=state.clients.filter(c=>c.current&&daysAgo(c.current.date)<win);
+  recent.sort((a,b)=>b.current.date.localeCompare(a.current.date));
+  document.getElementById('recentBody').innerHTML=recent.length?recent.map(c=>`
+    <div class="version current">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span class="v-date">${esc(c.name)}${c.code?` (${esc(c.code)})`:''} — ${fmtDate(c.current.date)}</span>
+        <button class="btn sm" data-viewpartner="${c.id}">View</button>
+      </div>
+      ${c.current.submitter?`<div class="v-src">from ${esc(c.current.submitter)}</div>`:(c.current.source?`<div class="v-src">from ${linkify(c.current.source)}</div>`:'')}
+      <div class="v-text">${formatGuideline(c.current.text)}</div>
+    </div>`).join(""):`<p style="color:var(--muted)">No updates in the last ${win} days.</p>`;
+  openOverlay('recentOverlay');
+}
+document.getElementById('recentUpdatesBtn').onclick=()=>openRecentUpdates(RECENT_SHORT_DAYS,`Updated in the last ${RECENT_SHORT_DAYS} days`);
+document.getElementById('recentBody').addEventListener('click',e=>{
+  const t=e.target.closest('[data-viewpartner]');if(!t)return;
+  ui.spotlightId=t.dataset.viewpartner;closeOverlays();render();
+});
+document.getElementById('resetSpotlightBtn').onclick=()=>{ui.spotlightId=null;render();};
+
+let mergeKeepId=null;
+function openMerge(id){
+  mergeKeepId=id;
+  const keep=state.clients.find(x=>x.id===id);
+  document.getElementById('merge_keep_name').textContent=keep.name+(keep.code?` (${keep.code})`:'');
+  const others=state.clients.filter(x=>x.id!==id);
+  const sel=document.getElementById('merge_source');
+  if(others.length===0){
+    sel.innerHTML='<option value="">No other clients to merge</option>';
+  }else{
+    others.sort((a,b)=>a.name.localeCompare(b.name));
+    const likely=others.filter(o=>normalizeName(o.name)===normalizeName(keep.name));
+    const rest=others.filter(o=>normalizeName(o.name)!==normalizeName(keep.name));
+    sel.innerHTML=[...likely,...rest].map(o=>`<option value="${o.id}">${esc(o.name)}${o.code?` (${esc(o.code)})`:''}${likely.includes(o)?' — likely duplicate':''}</option>`).join("");
+  }
+  openOverlay('mergeOverlay');
+}
+document.getElementById('merge_confirm').onclick=async()=>{
+  const sourceId=document.getElementById('merge_source').value;
+  if(!sourceId||!mergeKeepId||sourceId===mergeKeepId){closeOverlays();return;}
+  const keep=state.clients.find(x=>x.id===mergeKeepId);
+  const source=state.clients.find(x=>x.id===sourceId);
+  if(!keep||!source){closeOverlays();return;}
+  const all=[keep.current,...(keep.history||[]),source.current,...(source.history||[])].filter(Boolean);
+  const seen=new Set();
+  const deduped=all.filter(v=>{const k=v.date+'|'+v.text;if(seen.has(k))return false;seen.add(k);return true;});
+  deduped.sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  keep.current=deduped[0]||null;
+  keep.history=deduped.slice(1);
+  if(!keep.code&&source.code) keep.code=source.code;
+  if(source.pilot) keep.pilot=true;
+  state.clients=state.clients.filter(x=>x.id!==source.id);
+  mergeKeepId=null;
+  await save();render();closeOverlays();
+};
+
+let toastTimer=null;
+function showToast(msg){
+  let t=document.getElementById('appToast');
+  if(!t){t=document.createElement('div');t.id='appToast';t.className='toast';document.body.appendChild(t);}
+  t.textContent=msg;
+  requestAnimationFrame(()=>t.classList.add('show'));
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+}
+document.getElementById('content').addEventListener('click',e=>{const t=e.target.closest('[data-guide],[data-history],[data-menu],[data-editclient],[data-delclient],[data-mergeclient],[data-expand],[data-select]');if(!t){document.querySelectorAll('.menu.open').forEach(m=>m.classList.remove('open'));return;}if(t.dataset.guide!==undefined){const u=t.dataset.guide;if(u){window.open(u,'_blank','noopener');}else{showToast('No available guide for '+(t.dataset.code||'this client'));}e.stopPropagation();return;}if(t.dataset.history)openHistory(t.dataset.history);else if(t.dataset.expand){ui.expanded[t.dataset.expand]=!ui.expanded[t.dataset.expand];render();}else if(t.dataset.menu){const m=document.getElementById('menu-'+t.dataset.menu);const was=m.classList.contains('open');document.querySelectorAll('.menu.open').forEach(x=>x.classList.remove('open'));if(!was)m.classList.add('open');e.stopPropagation();}else if(t.dataset.editclient)openClient(t.dataset.editclient);else if(t.dataset.delclient)openClient(t.dataset.delclient);else if(t.dataset.mergeclient)openMerge(t.dataset.mergeclient);else if(t.dataset.select){ui.spotlightId=t.dataset.select;render();}});
+document.addEventListener('click',e=>{if(!e.target.closest('.kebab'))document.querySelectorAll('.menu.open').forEach(m=>m.classList.remove('open'))});
+
+document.getElementById('searchInput').addEventListener('input',e=>{ui.search=e.target.value;render()});
+document.getElementById('filterSeg').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;ui.filter=b.dataset.f;document.querySelectorAll('#filterSeg button').forEach(x=>x.classList.toggle('on',x===b));render()});
+document.getElementById('sortSeg').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;ui.sort=b.dataset.s;document.querySelectorAll('#sortSeg button').forEach(x=>x.classList.toggle('on',x===b));render()});
+function updateDateRangeUI(){
+  const active=!!(ui.dateFrom||ui.dateTo);
+  document.getElementById('dateRange').classList.toggle('active',active);
+  document.getElementById('dateClear').style.display=active?'':'none';
+}
+document.getElementById('dateFrom').addEventListener('change',e=>{ui.dateFrom=e.target.value;updateDateRangeUI();render();});
+document.getElementById('dateTo').addEventListener('change',e=>{ui.dateTo=e.target.value;updateDateRangeUI();render();});
+document.getElementById('dateClear').addEventListener('click',()=>{ui.dateFrom="";ui.dateTo="";document.getElementById('dateFrom').value="";document.getElementById('dateTo').value="";updateDateRangeUI();render();});
+
+(async function(){
+  await load();
+  await runSheetImport();
+  if(dedupeAliases())await save();
+  render();
+  setSyncStatus('Not yet checked — click ↻ to check the sheet');
+})();
+</script>
+</body>
+</html>
