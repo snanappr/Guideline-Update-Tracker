@@ -490,7 +490,7 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 function hashInt(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h}
 function normalizeName(s){return (s||"").toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'')}
 // Partner name aliases: normalized alias -> canonical display name. Both names collapse into one client entry.
-const PARTNER_ALIASES={"doordashrestaurant":"DoorDash"};
+const PARTNER_ALIASES={"doordashrestaurant":"DoorDash","owner":"Owner.com"};
 function canonicalName(name){return PARTNER_ALIASES[normalizeName(name)]||name;}
 // One-time merge of any existing entries that share a canonical name (combines current+history, keeps newest as current).
 function dedupeAliases(){
