@@ -123,8 +123,9 @@
   .daterange input[type=date]{width:auto;padding:5px 6px;border:0;border-radius:7px;background:transparent;font-size:12px;font-weight:600;color:var(--ink);color-scheme:light}
   [data-theme="dark"] .daterange input[type=date]{color-scheme:dark}
   .daterange input[type=date]:focus{outline:2px solid var(--accent);outline-offset:0}
-  .dr-clear{border:0;background:none;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;padding:2px 5px;border-radius:6px}
-  .dr-clear:hover{background:var(--ghost-hover);color:var(--ink)}
+  .dr-clear{display:flex;align-items:center;justify-content:center;width:26px;height:26px;flex:none;border:1px solid var(--input-border);background:var(--ghost-hover);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;padding:0;border-radius:50%;transition:background .12s,color .12s,transform .12s,border-color .12s}
+  .dr-clear:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);transform:scale(1.08)}
+  .dr-clear:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
   .note{position:relative;background:var(--paper);border-radius:12px;box-shadow:var(--note-shadow);padding:22px 18px 15px 34px;
     display:flex;flex-direction:column;min-height:170px;transform:rotate(var(--tilt));transition:transform .18s ease, box-shadow .18s ease;
@@ -374,7 +375,7 @@
         <input type="date" id="dateFrom" aria-label="Updates from date">
         <span class="dr-arrow">→</span>
         <input type="date" id="dateTo" aria-label="Updates to date">
-        <button class="dr-clear" id="dateClear" title="Clear date filter" aria-label="Clear date filter" style="display:none">×</button>
+        <button class="dr-clear" id="dateClear" title="Clear date filter" aria-label="Clear date filter">×</button>
       </div>
       <div class="seg" id="sortSeg">
         <button data-s="recent" class="on">Newest</button>
@@ -490,7 +491,7 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 function hashInt(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h}
 function normalizeName(s){return (s||"").toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'')}
 // Partner name aliases: normalized alias -> canonical display name. Both names collapse into one client entry.
-const PARTNER_ALIASES={"doordashrestaurant":"DoorDash","owner":"Owner.com"};
+const PARTNER_ALIASES={"doordashrestaurant":"DoorDash","owner":"Owner.com","jolt":"Jolt Charging","reyescocacola":"Coca Cola Reyes"};
 function canonicalName(name){return PARTNER_ALIASES[normalizeName(name)]||name;}
 // One-time merge of any existing entries that share a canonical name (combines current+history, keeps newest as current).
 function dedupeAliases(){
@@ -607,11 +608,11 @@ function renderStats(){const total=state.clients.length;const recent=state.clien
 const CLIENT_TYPES=[
   {key:'editing_jobs',label:'Editing Jobs',icon:'🗂️',partners:['Talkiatry','Oak Street Health']},
   {key:'food',label:'Food',icon:'🍽️',partners:['DoorDash','DoorDash Restaurant','me&u','MenuSifu','Hey You','Skip','Owner.com','Coca Cola SW Beverages','Coca Cola Florida','Swire Coca Cola','Pretsl','Town','Slice','UberEats','Coca Cola Reyes','ION Hospitality','Goldbelly','HungryHungry','Mr. Yum','Figure 8']},
-  {key:'real_estate',label:'Real Estate',icon:'🏠',partners:['Home Franchise Concepts','Furnished Quarters','Certainty Property','Hawthorne Residential Partners','James Hardie','Kompan','Zumper','Landing','Avantstay','Intersection','Volta','Pivot','Shell SG','Stablewood Properties','STO Building Group','Estaga','Woodtone','Diverzify','Jolt Charging','Oak Street Health','USGBC','Eataly']},
+  {key:'real_estate',label:'Real Estate',icon:'🏠',partners:['Home Franchise Concepts','Furnished Quarters','Certainty Property','Hawthorne Residential Partners','James Hardie','Kompan','Zumper','Landing','Avantstay','Intersection','Volta','Pivot','Shell SG','Stablewood Properties','STO Building Group','Estaga','Woodtone','Diverzify','Jolt Charging','Ionna','Oak Street Health','USGBC','Eataly']},
   {key:'automotive',label:'Automotive',icon:'🚗',partners:['Bring a Trailer','Cars and Bids','Turo','Adgile','AutoHunter','BarnFinds','Carvertise','Classic','Custom Truck','Epic Road Auctions','Hemmings','Onlyinboards','PCarMarket','SB Media',"Sotheby's",'Hagerty','Amazon']},
   {key:'team_office',label:'Team and Office',icon:'🏢',partners:['AirBnB Experiences','RenderSEO','Autoguru','Dieselmatic','EyeCarePro','Fresha','GoDaddy','Legalfit','National Dental Care','Optimize Social Media','Amerivet','Aspen Dental','Oak Street Health','Kompan','Practice Promotions','Jeisys','Clear Choice','Oto Development','Interdent','Care for Kids','Centerbase','Prosple','Slalom']},
   {key:'product',label:'Product',icon:'📦',partners:['Doordash Grocery','Instacart','Instacart EU',"Dierberg's",'DoorDash New Verticals','Eataly','DoorDash Restaurant Depot']},
-  {key:'event',label:'Event',icon:'🎉',partners:['Fresh Coat Painters','GetYourGuide','Operation Home Front','STO Building Group','ION Hospitality','Eataly','Roc360','Bar Crawl Nation','Utility Warehouse']},
+  {key:'event',label:'Event',icon:'🎉',partners:['Fresh Coat Painters','GetYourGuide','Operation Home Front','STO Building Group','ION Hospitality','Eataly','Roc360','Bar Crawl Nation','Utility Warehouse','PAYG (Consumer)','STO Building Group (Event)']},
   {key:'portrait',label:'Portrait',icon:'🖼️',partners:['Heal.me','Oak Street Health','NOCD','Privia Health','AmeriVet','Caring Transitions','ECG','Redfin','SNA','Roc360','Healthcare IT Leaders','Utility Warehouse','Pet Wants','BetterUp']}
 ];
 CLIENT_TYPES.forEach(t=>t.set=new Set(t.partners.map(normalizeName)));
@@ -980,7 +981,7 @@ document.getElementById('sortSeg').addEventListener('click',e=>{const b=e.target
 function updateDateRangeUI(){
   const active=!!(ui.dateFrom||ui.dateTo);
   document.getElementById('dateRange').classList.toggle('active',active);
-  document.getElementById('dateClear').style.display=active?'':'none';
+  document.getElementById('dateClear').style.display='';
 }
 document.getElementById('dateFrom').addEventListener('change',e=>{ui.dateFrom=e.target.value;updateDateRangeUI();render();});
 document.getElementById('dateTo').addEventListener('change',e=>{ui.dateTo=e.target.value;updateDateRangeUI();render();});
